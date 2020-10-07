@@ -28,5 +28,10 @@ export interface ConfigYML {
    */
   defaultDaysWithoutBackup?: number;
 
+  /**
+   *
+   */
+  teamsWebHook: string;
+
   watchedMachines: WatchedMachine[];
 }

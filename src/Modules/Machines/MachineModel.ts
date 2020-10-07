@@ -1,14 +1,17 @@
 // src/Modules/Machines/MachineModel.ts
-
 import { AgentType, AgentTypeTooltip } from './AgentType';
 
 /**
  * Rapid Recovery Protected Machine
  */
 export interface Machine {
-  AgentStatus: number;
+  HasRecoveryPointsWithExchange: boolean;
 
   Id: string;
+
+  DisplayName: string;
+
+  AgentStatus: number;
 
   AgentType: AgentType;
 
@@ -25,4 +28,12 @@ export interface Machine {
   NextSnapshotFormatted: string;
 
   UIID: string;
+
+  IconTooltip?: string;
+
+  IsSelected: boolean;
+
+  IsDisabled: boolean;
+
+  Tooltip: string;
 }

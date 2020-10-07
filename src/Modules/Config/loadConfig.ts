@@ -1,7 +1,7 @@
 // src/Modules/Config/loadConfig.ts
-import { ConfigYML } from './Config';
 import { readFile } from 'fs/promises';
 import { load } from 'js-yaml';
+import { ConfigYML } from './Config';
 import { checkConfig } from './validateConfig';
 
 export async function loadConfig(configPath: string): Promise<ConfigYML> {

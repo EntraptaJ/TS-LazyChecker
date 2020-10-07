@@ -12,12 +12,16 @@
     "start:debug": "node --loader @k-foss/ts-esnode --experimental-modules --experimental-specifier-resolution=node --harmony-top-level-await ./",
     "dev": "nodemon",
     "prettier": "prettier --config .prettierrc --check \"src/**/*ts\"",
-    "lint": "eslint ./src --ext .js,.ts"
+    "lint": "eslint ./src --ext .js,.ts",
+    "listMachines": "node --loader @k-foss/ts-esnode --experimental-modules --experimental-specifier-resolution=node --harmony-top-level-await ./src/bin/listMachines.ts"
   },
   "dependencies": {
     "@elastic.io/ntlm-client": "^1.0.0",
+    "axios": "^0.20.0",
     "date-fns": "^2.16.1",
-    "js-yaml": "^3.14.0"
+    "got": "^11.7.0",
+    "js-yaml": "^3.14.0",
+    "pipsqueak": "^2.7.0"
   },
   "devDependencies": {
     "@k-foss/ts-esnode": "^1.7.0",
