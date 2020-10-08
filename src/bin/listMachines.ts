@@ -1,6 +1,6 @@
 // src/bin/listMachines.ts
-import { loadConfig } from '../Modules/Config/loadConfig';
-import { getMachines } from '../Modules/Machines/getMachines';
+import { loadConfig } from 'ts-lazychecker/Modules/Config/loadConfig';
+import { getMachines } from 'ts-lazychecker/Modules/Machines/getMachines';
 
 const configPath = process.env.CONFIG_PATH || 'config.yml';
 

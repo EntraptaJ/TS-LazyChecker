@@ -1,13 +1,15 @@
 // src/Modules/Backups/checkBackups.ts
 import { differenceInCalendarDays } from 'date-fns';
-import { postCriticalMessageToTeamms } from '../../Library/Teams';
-import { CheckedMachine } from '../Checks/CheckedMachine';
-import { ConfigYML } from '../Config/Config';
-import { getMachines } from '../Machines/getMachines';
+import { postCriticalMessageToTeamms } from 'ts-lazychecker/Library/Teams';
+import { CheckedMachine } from 'ts-lazychecker/Modules/Checks/CheckedMachine';
+import { Config } from 'ts-lazychecker/Modules/Config/Config';
+import { getMachines } from 'ts-lazychecker/Modules/Machines/getMachines';
 
-export async function checkBackups(
-  config: ConfigYML,
-): Promise<CheckedMachine[]> {
+/**
+ * Check all backups to ensure they haven't gone longer than max days without
+ * @param config App Config
+ */
+export async function checkBackups(config: Config): Promise<CheckedMachine[]> {
   const protectedMachines = await getMachines(config);
 
   const watchedIds = config.watchedMachines.map(({ id }) => id);
@@ -18,35 +20,40 @@ export async function checkBackups(
 
   const currentDate = new Date();
 
-  return machines.map((machine) => {
-    const watchedEntry = config.watchedMachines.find(
-      ({ id }) => id === machine.Id,
-    );
-
-    if (!watchedEntry) {
-      throw new Error('Checked machine not found in Watched Machines');
-    }
-
-    const lastBackup = new Date(machine.LastSnapshot);
-
-    const daysSinceLastSnapshot = differenceInCalendarDays(
-      currentDate,
-      lastBackup,
-    );
-
-    if (daysSinceLastSnapshot >= watchedEntry.daysWithoutBackup) {
-      postCriticalMessageToTeamms(
-        `Backup Checker ${watchedEntry.name} backup error`,
-        `@Harpreet ${watchedEntry.name} has gone ${watchedEntry.daysWithoutBackup} or more days without a backup`,
-        config,
+  return Promise.all(
+    machines.map(async (machine) => {
+      const watchedEntry = config.watchedMachines.find(
+        ({ id }) => id === machine.Id,
       );
-    }
 
-    return new CheckedMachine({
-      machineName: watchedEntry.name,
-      machineId: machine.Id,
-      daysSinceLastSnapshot,
-      machine,
-    });
-  });
+      if (!watchedEntry) {
+        throw new Error('Checked machine not found in Watched Machines');
+      }
+
+      const lastBackup = new Date(machine.LastSnapshot);
+
+      const daysSinceLastSnapshot = differenceInCalendarDays(
+        currentDate,
+        lastBackup,
+      );
+
+      const maxDaysWithoutBackup =
+        watchedEntry?.daysWithoutBackup || config.defaultDaysWithoutBackup;
+
+      if (daysSinceLastSnapshot >= maxDaysWithoutBackup) {
+        await postCriticalMessageToTeamms(
+          `Backup Checker ${watchedEntry.name} backup error`,
+          `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`,
+          config,
+        );
+      }
+
+      return new CheckedMachine({
+        machineName: watchedEntry.name,
+        machineId: machine.Id,
+        daysSinceLastSnapshot,
+        machine,
+      });
+    }),
+  );
 }

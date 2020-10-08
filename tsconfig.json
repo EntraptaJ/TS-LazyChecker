@@ -16,7 +16,12 @@
 
     // Features
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+
+    "baseUrl": "./src",
+    "paths": {
+      "ts-lazychecker/*": ["./*"]
+    }
   },
   "include": ["src/**/*", "index.d.ts"]
 }

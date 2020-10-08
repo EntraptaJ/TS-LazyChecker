@@ -1,7 +1,7 @@
 // src/Library/Teams.ts
 import got from 'got';
-import { CheckedMachine } from '../Modules/Checks/CheckedMachine';
-import { ConfigYML } from '../Modules/Config/Config';
+import { CheckedMachine } from 'ts-lazychecker/Modules/Checks/CheckedMachine';
+import { ConfigYML } from 'ts-lazychecker/Modules/Config/Config';
 
 export async function postCardMessageToTeams(
   checkedMachines: CheckedMachine[],

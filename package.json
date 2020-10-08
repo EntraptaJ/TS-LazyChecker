@@ -1,5 +1,5 @@
 {
-  "name": "ts-core",
+  "name": "ts-lazychecker",
   "version": "0.0.1",
   "description": "TS-Core is a github repo template for TypeScript Projects",
   "main": "src/index.ts",

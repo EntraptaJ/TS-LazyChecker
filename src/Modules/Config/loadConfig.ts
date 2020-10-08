@@ -1,10 +1,10 @@
 // src/Modules/Config/loadConfig.ts
 import { readFile } from 'fs/promises';
 import { load } from 'js-yaml';
-import { ConfigYML } from './Config';
+import { Config } from './Config';
 import { checkConfig } from './validateConfig';
 
-export async function loadConfig(configPath: string): Promise<ConfigYML> {
+export async function loadConfig(configPath: string): Promise<Config> {
   /**
    * Read the config file path from disk
    */
@@ -15,7 +15,10 @@ export async function loadConfig(configPath: string): Promise<ConfigYML> {
 
   // Ensure config has all required keys
   if (checkConfig(yml)) {
-    return yml;
+    return {
+      defaultDaysWithoutBackup: 1,
+      ...yml,
+    };
   }
 
   throw new Error('Invalid Config.');
