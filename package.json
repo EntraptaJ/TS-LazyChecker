@@ -18,12 +18,10 @@
   "dependencies": {
     "@elastic.io/ntlm-client": "^1.0.0",
     "@k-foss/ts-esnode": "^1.7.0",
-    "axios": "^0.20.0",
     "bull": "^3.18.0",
     "date-fns": "^2.16.1",
     "got": "^11.7.0",
     "js-yaml": "^3.14.0",
-    "pipsqueak": "^2.7.0",
     "typescript": "^4.0.3"
   },
   "devDependencies": {
