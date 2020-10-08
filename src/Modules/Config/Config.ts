@@ -27,6 +27,12 @@ export interface ConfigYML {
   controllerUri: string;
 
   /**
+   * Schedule
+   * defaults to 30th minute every 12 hours
+   */
+  schedule?: string;
+
+  /**
    * Rapid Recovery Authenication
    */
   auth: Auth;

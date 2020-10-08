@@ -1,5 +1,5 @@
 // src/Modules/Checks/CheckedMachine.ts
-import { Machine } from 'ts-lazychecker/Modules/Machines/MachineModel';
+import { Machine } from '../Machines/MachineModel';
 
 let id = 0;
 

@@ -1,0 +1,30 @@
+version: '3.8'
+
+networks:
+  internalRedis:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.42.0/24
+
+
+configs:
+  TSCheckerConfig:
+    name: TSCheckerConfig-1
+    file: ./config.yml
+
+services:
+  TS-Checker:
+    image: kristianfjones/ts-lazychecker
+    deploy:
+      replicas: 3
+    configs:
+      - source: TSCheckerConfig
+        target: /app/config.yml
+    networks:
+      - internalRedis
+
+  Redis:
+    image: redis:alpine
+    networks:
+      - internalRedis

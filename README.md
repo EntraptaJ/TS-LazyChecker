@@ -1,12 +1,63 @@
-# K-FOSS/TS-Core Repository Template
+# KristianFJones/TS-LazyChecker
 
-This is a TypeScript project template.
+This is a project to automate the checks of a RapidRecovery appliance to ensure backups for speficied VMs have been taken within X days.
 
 ## Usage
 
-On the GitHub Website click "Use this template"
+`docker-compose.yml`
 
-Once you have cloned the template locally search and replace and usage of TS-Core with the name of your new project
+```yml
+version: '3.8'
+
+networks:
+  internalRedis:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.42.0/24
+
+configs:
+  TSCheckerConfig:
+    name: TSCheckerConfig-1
+    file: ./config.yml
+
+services:
+  TS-Checker:
+    image: kristianfjones/ts-lazychecker
+    deploy:
+      replicas: 3
+    configs:
+      - source: TSCheckerConfig
+        target: /app/config.yml
+    networks:
+      - internalRedis
+
+  Redis:
+    image: redis:alpine
+    networks:
+      - internalRedis
+```
+
+`./config.yml`
+
+```yml
+controllerUri: https://192.168.254.111:8006
+
+teamsWebHook: https://outlook.office.com/webhook/KEY
+
+auth:
+  username: administrator
+  password: password
+
+watchedMachines:
+  - name: Finane
+    id: 5d0a35fc-097f-11eb-adc1-0242ac120002
+    daysWithoutBackup: 1
+```
+
+```sh
+docker stack deploy TSChecker
+```
 
 ## Development
 

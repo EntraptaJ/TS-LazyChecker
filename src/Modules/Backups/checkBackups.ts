@@ -1,9 +1,9 @@
 // src/Modules/Backups/checkBackups.ts
 import { differenceInCalendarDays } from 'date-fns';
-import { postCriticalMessageToTeamms } from 'ts-lazychecker/Library/Teams';
-import { CheckedMachine } from 'ts-lazychecker/Modules/Checks/CheckedMachine';
-import { Config } from 'ts-lazychecker/Modules/Config/Config';
-import { getMachines } from 'ts-lazychecker/Modules/Machines/getMachines';
+import { postCriticalMessageToTeamms } from '../../Library/Teams';
+import { CheckedMachine } from '../Checks/CheckedMachine';
+import { Config } from '../Config/Config';
+import { getMachines } from '../Machines/getMachines';
 
 /**
  * Check all backups to ensure they haven't gone longer than max days without

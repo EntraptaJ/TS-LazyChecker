@@ -24,8 +24,6 @@ export async function getMachines(config: ConfigYML): Promise<Machine[]> {
       },
       body: {
         PageSize: 100,
-        _search: false,
-        nd: 1602000819608,
         rows: 20,
         page: 1,
         sidx: '',
