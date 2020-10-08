@@ -1,14 +1,8 @@
 {
   "name": "TS-LazyChecker Container",
-  "dockerFile": "./Dockerfile.dev",
-  "settings": {
-    // This dev container does include /bin/bash if you prefer to use it instead of ash.
-    "terminal.integrated.shell.linux": "/bin/sh"
-  },
-
-  "remoteEnv": {
-    "SHELL": "/bin/sh"
-  },
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "TS-LazyChecker",
+  "runServices": ["TS-LazyChecker", "Redis"],
 
   "extensions": [
     "esbenp.prettier-vscode",
@@ -17,11 +11,6 @@
     "visualstudioexptteam.vscodeintellicode",
     "eamodio.gitlens"
   ],
-  "remoteUser": "node",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
   "workspaceFolder": "/workspace",
-  "mounts": [
-    "source=ts-core-modules,target=/workspace/node_modules,type=volume"
-  ],
-  "postCreateCommand": "sudo chown node -R node_modules && npm i"
+  "postCreateCommand": "npm i"
 }
