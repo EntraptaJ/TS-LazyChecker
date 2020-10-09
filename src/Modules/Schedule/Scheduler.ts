@@ -1,36 +1,37 @@
 // src/Modules/Schedule/Scheduler.ts
+import { Job } from 'bull';
+import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
 import { postCardMessageToTeams } from '../../Library/Teams';
 import { checkBackups } from '../Backups/checkBackups';
 import { loadConfig } from '../Config/loadConfig';
 import { CheckerQue } from './Que';
 
-export async function startScheduler(): Promise<void> {
+export async function startScheduler(): Promise<[void, Job]> {
   const configPath = process.env.CONFIG_PATH || 'config.yml';
 
-  console.log(`Starting Scheduler`);
+  logger.log(LogMode.INFO, 'Starting Scheduler');
 
   const appConfig = await loadConfig(configPath);
 
-  console.log('Created entry');
+  logger.log(LogMode.INFO, 'Loaded Config');
 
-  await Promise.all([
+  return Promise.all([
     CheckerQue.process(1, async function (job) {
-      console.log('Running task');
+      logger.log(LogMode.INFO, 'Running Task');
+
       const checkedBackups = await checkBackups(job.data);
 
       await postCardMessageToTeams(checkedBackups, job.data);
 
-      console.log('Posted to teams');
+      logger.log(LogMode.INFO, 'Posted to Teams');
 
-      await job.finished();
+      await job.moveToCompleted();
     }),
     CheckerQue.add(appConfig, {
       jobId: 'backups',
       repeat: {
-        cron: `30 */12 * * *`,
+        cron: appConfig.schedule || `*/1 * * * *`,
       },
     }),
   ]);
-
-  console.log('Proceses');
 }
