@@ -1,6 +1,6 @@
 // src/Modules/Schedule/Scheduler.ts
 import { Job } from 'bull';
-import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
+import { logger, LogMode } from '../../Library/Logging';
 import { postCardMessageToTeams } from '../../Library/Teams';
 import { checkBackups } from '../Backups/checkBackups';
 import { loadConfig } from '../Config/loadConfig';
