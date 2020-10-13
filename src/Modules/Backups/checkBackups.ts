@@ -1,5 +1,5 @@
 // src/Modules/Backups/checkBackups.ts
-import { differenceInCalendarDays } from 'date-fns';
+import { differenceInHours } from 'date-fns';
 import { postCriticalMessageToTeamms } from '../../Library/Teams';
 import { CheckedMachine } from '../Checks/CheckedMachine';
 import { Config } from '../Config/Config';
@@ -12,8 +12,14 @@ import { getMachines } from '../Machines/getMachines';
 export async function checkBackups(config: Config): Promise<CheckedMachine[]> {
   const protectedMachines = await getMachines(config);
 
+  /**
+   * Map out all watched machine Ids into an string array
+   */
   const watchedIds = config.watchedMachines.map(({ id }) => id);
 
+  /**
+   * Filter out all machine which Ids are included in our watched machines Ids
+   */
   const machines = protectedMachines.filter(({ Id }) =>
     watchedIds.includes(Id),
   );
@@ -30,17 +36,22 @@ export async function checkBackups(config: Config): Promise<CheckedMachine[]> {
         throw new Error('Checked machine not found in Watched Machines');
       }
 
-      const lastBackup = new Date(machine.LastSnapshot);
+      const lastBackupDate = new Date(machine.LastSnapshot);
 
-      const daysSinceLastSnapshot = differenceInCalendarDays(
+      const housrSinceLastSnapshot = differenceInHours(
         currentDate,
-        lastBackup,
+        lastBackupDate,
       );
+
+      const daysSinceLastSnapshot = housrSinceLastSnapshot / 24;
+
+      const roundedDaysSinceLastSnapshot =
+        Math.round(daysSinceLastSnapshot * 100) / 100;
 
       const maxDaysWithoutBackup =
         watchedEntry?.daysWithoutBackup || config.defaultDaysWithoutBackup;
 
-      if (daysSinceLastSnapshot >= maxDaysWithoutBackup) {
+      if (roundedDaysSinceLastSnapshot >= maxDaysWithoutBackup) {
         await postCriticalMessageToTeamms(
           `Backup Checker ${watchedEntry.name} backup error`,
           `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`,
@@ -51,7 +62,7 @@ export async function checkBackups(config: Config): Promise<CheckedMachine[]> {
       return new CheckedMachine({
         machineName: watchedEntry.name,
         machineId: machine.Id,
-        daysSinceLastSnapshot,
+        daysSinceLastSnapshot: roundedDaysSinceLastSnapshot,
         machine,
       });
     }),

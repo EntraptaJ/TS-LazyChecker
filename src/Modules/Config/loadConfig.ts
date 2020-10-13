@@ -4,6 +4,12 @@ import { load } from 'js-yaml';
 import { Config } from './Config';
 import { checkConfig } from './validateConfig';
 
+/**
+ * Load and validate a YAML configuration file from disk
+ * @param configPath Disk file path to the YAML Configuration file
+ *
+ * @returns Promise resolving to the JavaScript Object containing configuration
+ */
 export async function loadConfig(configPath: string): Promise<Config> {
   /**
    * Read the config file path from disk

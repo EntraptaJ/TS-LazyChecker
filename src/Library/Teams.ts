@@ -2,7 +2,15 @@
 import got from 'got';
 import { CheckedMachine } from '../Modules/Checks/CheckedMachine';
 import { ConfigYML } from '../Modules/Config/Config';
+import { logger, LogMode } from './Logging';
 
+/**
+ * Post a status card in Teams detailing the VM last snapshot dates.
+ * @param checkedMachines Array containing the checked machines object
+ * @param configYML App Configuration
+ *
+ * @returns Promise resolving to a boolean indicating success
+ */
 export async function postCardMessageToTeams(
   checkedMachines: CheckedMachine[],
   configYML: ConfigYML,
@@ -42,6 +50,16 @@ export async function postCardMessageToTeams(
   }
 }
 
+/**
+ * Post a message to teams with red theme color. Although the Teams docs advise not to use status color in theme, I don't care. This works until I can
+ * seperate Status and Error Messages
+ *
+ * @param title Title of the Critical Message
+ * @param message Body of the critial message
+ * @param configYML App configuration
+ *
+ * @returns Promise resolving to true if everything was sent successfully, otherwise it throws an error.
+ */
 export async function postCriticalMessageToTeamms(
   title: string,
   message: string,
@@ -61,7 +79,10 @@ export async function postCriticalMessageToTeamms(
     });
     return true;
   } catch (err) {
-    console.log(err);
+    logger.log(
+      LogMode.ERROR,
+      `Error sending critical message. ${JSON.stringify(err)}`,
+    );
     throw new Error('Error sending webhook');
   }
 }

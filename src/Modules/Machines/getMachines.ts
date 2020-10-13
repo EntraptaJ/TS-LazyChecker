@@ -11,6 +11,10 @@ process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
 
 /**
  * Get Machines from RapidRecovery API
+ *
+ * @param config App Configuration
+ *
+ * @returns Promise resolving to array of Protected machines
  */
 export async function getMachines(config: ConfigYML): Promise<Machine[]> {
   const { body } = await request({

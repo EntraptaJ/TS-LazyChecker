@@ -1,6 +1,4 @@
 // src/Library/Logging.ts
-
-// src/Library/Logger.ts
 export enum LogMode {
   DEBUG,
   INFO,

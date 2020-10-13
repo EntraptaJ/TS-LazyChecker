@@ -20,11 +20,26 @@ interface Auth {
   password: string;
 }
 
+// interface TeamsConfig {
+//   clientId: string;
+
+//   clientSecret: string;
+
+//   alertTeam: string;
+
+//   alertChannel: string;
+// }
+
 export interface ConfigYML {
   /**
    * Rapid Recovery Uri
    */
   controllerUri: string;
+
+  /**
+   * Microsoft Teams Config
+   */
+  // teams: TeamsConfig;
 
   /**
    * Schedule

@@ -6,6 +6,13 @@ interface RESTResponse {
   rows: Machine[];
 }
 
+/**
+ * Validate that an object is a valid RapidRecovery API Response.
+ *
+ * @param response Response from RapidRecovery API
+ *
+ * @returns True if the response is a valid RapidRecovery Response object, false otherwise.
+ */
 export function checkMachineResponse(
   response: RESTResponse | string | Buffer | Buffer[] | string[] | Readable,
 ): response is RESTResponse {
