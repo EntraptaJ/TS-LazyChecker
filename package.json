@@ -31,7 +31,7 @@
     "@types/ntlm-client": "^0.1.0",
     "@types/request": "^2.48.5",
     "@typescript-eslint/eslint-plugin": "^4.4.0",
-    "@typescript-eslint/parser": "^4.4.0",
+    "@typescript-eslint/parser": "^4.5.0",
     "eslint": "^7.10.0",
     "eslint-config-prettier": "^6.12.0",
     "eslint-config-standard": "^14.1.1",
