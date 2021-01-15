@@ -29,7 +29,6 @@ export async function startScheduler(): Promise<[void, Job]> {
   return Promise.all([
     CheckerQue.process(1, async function (job) {
       logger.log(LogMode.INFO, 'Running Task');
-      console.log('HelloWorld');
 
       const checkedBackups = await rrController.checkBackups();
 

@@ -2,6 +2,7 @@
 import { request } from '@elastic.io/ntlm-client';
 import { differenceInHours } from 'date-fns';
 import { Readable } from 'stream';
+import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
 import { Inject, Service } from 'typedi';
 import { postCriticalMessageToTeams } from '../../Library/Teams';
 import { CheckedMachine } from '../Checks/CheckedMachine';
@@ -54,6 +55,8 @@ export class RapidRecoveryController {
    * @returns Promise resolving to array of Protected machines
    */
   public async getMachines(): Promise<ProtectedMachine[]> {
+    logger.log(LogMode.DEBUG, 'getMachines()');
+
     const { body } = await request({
       uri: `${this.config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
       method: 'POST',
@@ -64,6 +67,8 @@ export class RapidRecoveryController {
       },
       ...this.config.auth,
     });
+
+    logger.log(LogMode.DEBUG, 'getMachines() has obtained protected machines');
 
     if (this.checkMachineResponse(body)) {
       return body.rows;
@@ -76,7 +81,15 @@ export class RapidRecoveryController {
    * Get and check all Backups
    */
   public async checkBackups(): Promise<CheckedMachine[]> {
+    logger.log(LogMode.DEBUG, 'Running checkBackups');
+
     const protectedMachines = await this.getMachines();
+
+    logger.log(
+      LogMode.DEBUG,
+      'checkBackups() protectedMachines: ',
+      protectedMachines,
+    );
 
     /**
      * Map out all watched machine Ids into an string array
@@ -119,13 +132,13 @@ export class RapidRecoveryController {
           this.config.defaultDaysWithoutBackup;
 
         if (roundedDaysSinceLastSnapshot >= maxDaysWithoutBackup) {
-          console.log(
-            `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`,
-          );
+          const warnMessage = `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`;
+
+          logger.log(LogMode.WARN, warnMessage);
 
           await postCriticalMessageToTeams(
             `Backup Checker ${watchedEntry.name} backup error`,
-            `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`,
+            warnMessage,
             this.config,
           );
         }
