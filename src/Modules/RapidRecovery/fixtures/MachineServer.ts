@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { ProtectedMachine } from '../MachineModel';
 import {
   protectedMachineRequestBodySchema,
   protectedMachineRequestHeaderSchema,
 } from '../ProtectedMachineSchema';
+import { RRMachineResponse } from './RRMachine';
 
 // src/Modules/Machines/Fixtures/MachineServer.ts
 interface MachineServer {
@@ -31,7 +33,7 @@ export async function createMachineServer({
         body: protectedMachineRequestBodySchema,
       },
     },
-    function () {
+    async function (): Promise<RRMachineResponse> {
       return {
         total: 6,
         page: 1,

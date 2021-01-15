@@ -1,16 +1,16 @@
 // src/Modules/RapidRecovery/RapidRecoveryController.ts
-import { Readable } from 'stream';
-import Container, { Service } from 'typedi';
-import { ProtectedMachine } from './MachineModel';
 import { request } from '@elastic.io/ntlm-client';
-import { Config, ConfigYML } from '../Config/Config';
+import { differenceInHours } from 'date-fns';
+import { Readable } from 'stream';
+import { Inject, Service } from 'typedi';
+import { postCriticalMessageToTeams } from '../../Library/Teams';
+import { CheckedMachine } from '../Checks/CheckedMachine';
+import type { Config } from '../Config/Config';
+import { ProtectedMachine } from './MachineModel';
 import {
   MachineRequestBody,
   MachineRequestHeaders,
 } from './RapidRecoveryConsts';
-import { CheckedMachine } from '../Checks/CheckedMachine';
-import { differenceInHours } from 'date-fns';
-import { postCriticalMessageToTeams } from '../../Library/Teams';
 
 interface RESTResponse {
   rows: ProtectedMachine[];
@@ -18,6 +18,9 @@ interface RESTResponse {
 
 @Service()
 export class RapidRecoveryController {
+  @Inject('config')
+  public config: Config;
+
   /**
    * Validate that an object is a valid RapidRecovery API Response.
    *
@@ -50,16 +53,16 @@ export class RapidRecoveryController {
    *
    * @returns Promise resolving to array of Protected machines
    */
-  public async getMachines(config: ConfigYML): Promise<ProtectedMachine[]> {
+  public async getMachines(): Promise<ProtectedMachine[]> {
     const { body } = await request({
-      uri: `${config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
+      uri: `${this.config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
       method: 'POST',
       request: {
         json: true,
         headers: MachineRequestHeaders,
         body: MachineRequestBody,
       },
-      ...config.auth,
+      ...this.config.auth,
     });
 
     if (this.checkMachineResponse(body)) {
@@ -72,13 +75,13 @@ export class RapidRecoveryController {
   /**
    * Get and check all Backups
    */
-  public async checkBackups(config: Config): Promise<CheckedMachine[]> {
-    const protectedMachines = await this.getMachines(config);
+  public async checkBackups(): Promise<CheckedMachine[]> {
+    const protectedMachines = await this.getMachines();
 
     /**
      * Map out all watched machine Ids into an string array
      */
-    const watchedIds = config.watchedMachines.map(({ id }) => id);
+    const watchedIds = this.config.watchedMachines.map(({ id }) => id);
 
     /**
      * Filter out all machine which Ids are included in our watched machines Ids
@@ -91,7 +94,7 @@ export class RapidRecoveryController {
 
     return Promise.all(
       machines.map(async (machine) => {
-        const watchedEntry = config.watchedMachines.find(
+        const watchedEntry = this.config.watchedMachines.find(
           ({ id }) => id === machine.Id,
         );
 
@@ -112,7 +115,8 @@ export class RapidRecoveryController {
           Math.round(daysSinceLastSnapshot * 100) / 100;
 
         const maxDaysWithoutBackup =
-          watchedEntry?.daysWithoutBackup || config.defaultDaysWithoutBackup;
+          watchedEntry?.daysWithoutBackup ||
+          this.config.defaultDaysWithoutBackup;
 
         if (roundedDaysSinceLastSnapshot >= maxDaysWithoutBackup) {
           console.log(
@@ -122,7 +126,7 @@ export class RapidRecoveryController {
           await postCriticalMessageToTeams(
             `Backup Checker ${watchedEntry.name} backup error`,
             `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`,
-            config,
+            this.config,
           );
         }
 
@@ -136,5 +140,3 @@ export class RapidRecoveryController {
     );
   }
 }
-
-export const rrController = Container.get(RapidRecoveryController);

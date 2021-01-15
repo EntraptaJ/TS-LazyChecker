@@ -1,10 +1,12 @@
 // Tests/AddTest/add.test.ts
 import { TestSuite } from '@k-foss/ts-estests';
+import Ajv from 'ajv';
+import { strictEqual } from 'assert';
 import { readFile } from 'fs/promises';
 import { resolve } from 'path';
 import { fileURLToPath } from 'url';
-import { strictEqual } from 'assert';
-import Ajv from 'ajv';
+import '../../setup';
+import { RRMachineResponse } from './fixtures/RRMachine';
 import {
   protectedMachineRequestBodySchema,
   protectedMachineRequestHeaderSchema,
@@ -23,7 +25,9 @@ export class MachineRequestSchemaTest extends TestSuite {
       resolve(fileURLToPath(import.meta.url), '../fixtures/sourceMock.json'),
     );
 
-    const responseFixtureJSON = JSON.parse(fixtureJSONFile.toString());
+    const responseFixtureJSON = (JSON.parse(
+      fixtureJSONFile.toString(),
+    ) as unknown) as RRMachineResponse;
 
     const ajv = new Ajv({ allErrors: true });
     const validateResponseSchema = ajv.compile(

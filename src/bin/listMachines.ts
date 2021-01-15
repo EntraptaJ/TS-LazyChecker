@@ -1,12 +1,15 @@
 // src/bin/listMachines.ts
-import { loadConfig } from '../Modules/Config/loadConfig';
-import { getMachines } from '../Modules/Machines/getMachines';
+import Container from 'typedi';
+import { configController } from '../Modules/Config/ConfigController';
+import { RapidRecoveryController } from '../Modules/RapidRecovery/RapidRecoveryController';
 
 const configPath = process.env.CONFIG_PATH || 'config.yml';
 
-const appConfig = await loadConfig(configPath);
+await configController.loadConfig(configPath);
 
-const machines = await getMachines(appConfig);
+const rrController = Container.get(RapidRecoveryController);
+
+const machines = await rrController.getMachines();
 
 for (const machine of machines) {
   console.log(`Machine ${machine.DisplayName} ID: ${machine.Id}`);

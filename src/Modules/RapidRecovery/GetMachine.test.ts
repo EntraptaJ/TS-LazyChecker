@@ -1,7 +1,10 @@
 // Tests/AddTest/add.test.ts
 import { TestSuite } from '@k-foss/ts-estests';
-import { checkBackups } from '../Backups/checkBackups';
+import Container from 'typedi';
+import '../../setup';
+import { Config } from '../Config/Config';
 import { createMachineServer } from './fixtures/MachineServer';
+import { RapidRecoveryController } from './RapidRecoveryController';
 
 export class GetMachineTest extends TestSuite {
   public testName = 'GetMachine';
@@ -16,7 +19,7 @@ export class GetMachineTest extends TestSuite {
       protectedMachines: recentMachines,
     });
 
-    const test = await checkBackups({
+    const config = {
       auth: {
         password: 'helloWorld',
         username: 'kristianfjones',
@@ -30,7 +33,13 @@ export class GetMachineTest extends TestSuite {
         },
       ],
       defaultDaysWithoutBackup: 1,
-    });
+    };
+
+    Container.set<Config>('config', config);
+
+    const rrController = Container.get(RapidRecoveryController);
+
+    const test = await rrController.checkBackups();
 
     console.log(test);
 
