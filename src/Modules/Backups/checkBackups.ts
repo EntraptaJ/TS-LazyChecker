@@ -52,6 +52,10 @@ export async function checkBackups(config: Config): Promise<CheckedMachine[]> {
         watchedEntry?.daysWithoutBackup || config.defaultDaysWithoutBackup;
 
       if (roundedDaysSinceLastSnapshot >= maxDaysWithoutBackup) {
+        console.log(
+          `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`,
+        );
+
         await postCriticalMessageToTeamms(
           `Backup Checker ${watchedEntry.name} backup error`,
           `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`,

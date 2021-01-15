@@ -3,7 +3,7 @@ declare module '@elastic.io/ntlm-client' {
 
   import { RequestAPI, Request, CoreOptions, RequiredUriUrl } from 'request';
 
-  interface RequestOptions {
+  export interface RequestOptions {
     username: string;
     password: string;
 

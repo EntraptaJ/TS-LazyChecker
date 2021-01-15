@@ -3,6 +3,7 @@ import { request } from '@elastic.io/ntlm-client';
 import { ConfigYML } from '../Config/Config';
 import { checkMachineResponse } from './checkMachineResponse';
 import { Machine } from './MachineModel';
+import { MachineRequestBody } from './MachineRequest';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -26,18 +27,7 @@ export async function getMachines(config: ConfigYML): Promise<Machine[]> {
         'Content-Type': 'application/json',
         Cookie: 'CoreVersion=6.4.0.718',
       },
-      body: {
-        PageSize: 100,
-        rows: 20,
-        page: 1,
-        sidx: '',
-        sord: 'asc',
-        Page: 1,
-        IsVirtualScrolling: false,
-        SortOrder: 'asc',
-        SortName: '',
-        ByContent: '',
-      },
+      body: MachineRequestBody,
     },
     ...config.auth,
   });
