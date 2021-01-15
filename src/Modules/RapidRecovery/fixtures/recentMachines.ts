@@ -1,9 +1,9 @@
 // src/Modules/Machines/fixtures/recentMachines.ts
-import { AgentType } from '../AgentType';
-import { Machine } from '../MachineModel';
+import { AgentType } from '../RapidRecoveryAgentType';
+import { ProtectedMachine } from '../MachineModel';
 import { subHours } from 'date-fns';
 
-export const recentMachines: Machine[] = [
+export const recentMachines: ProtectedMachine[] = [
   {
     HasRecoveryPointsWithExchange: false,
     Id: 'a2e223c9-3fc3-4575-8090-2538a66ba998',

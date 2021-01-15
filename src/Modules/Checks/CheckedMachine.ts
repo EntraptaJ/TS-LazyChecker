@@ -1,5 +1,5 @@
 // src/Modules/Checks/CheckedMachine.ts
-import { Machine } from '../Machines/MachineModel';
+import { ProtectedMachine } from '../RapidRecovery/MachineModel';
 
 let id = 0;
 
@@ -12,7 +12,7 @@ export class CheckedMachine {
 
   public daysSinceLastSnapshot: number;
 
-  public machine: Machine;
+  public machine: ProtectedMachine;
 
   public constructor(options: Partial<Omit<CheckedMachine, 'id'>>) {
     this.id = id++;

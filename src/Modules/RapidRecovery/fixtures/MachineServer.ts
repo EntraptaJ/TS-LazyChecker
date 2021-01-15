@@ -1,4 +1,4 @@
-import { Machine } from '../MachineModel';
+import { ProtectedMachine } from '../MachineModel';
 import {
   protectedMachineRequestBodySchema,
   protectedMachineRequestHeaderSchema,
@@ -12,7 +12,7 @@ interface MachineServer {
 interface MachineServerArgs {
   port: number;
 
-  protectedMachines: Machine[];
+  protectedMachines: ProtectedMachine[];
 }
 
 export async function createMachineServer({

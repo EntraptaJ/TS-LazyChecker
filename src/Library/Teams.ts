@@ -64,7 +64,7 @@ export async function postCardMessageToTeams(
  *
  * @returns Promise resolving to true if everything was sent successfully, otherwise it throws an error.
  */
-export async function postCriticalMessageToTeamms(
+export async function postCriticalMessageToTeams(
   title: string,
   message: string,
   configYML: ConfigYML,

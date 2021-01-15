@@ -2,8 +2,8 @@
 import { Job } from 'bull';
 import { logger, LogMode } from '../../Library/Logging';
 import { postCardMessageToTeams } from '../../Library/Teams';
-import { checkBackups } from '../Backups/checkBackups';
 import { loadConfig } from '../Config/loadConfig';
+import { rrController } from '../RapidRecovery/RapidRecoveryController';
 import { CheckerQue } from './Que';
 
 /**
@@ -28,7 +28,7 @@ export async function startScheduler(): Promise<[void, Job]> {
       logger.log(LogMode.INFO, 'Running Task');
       console.log('HelloWorld');
 
-      const checkedBackups = await checkBackups(job.data);
+      const checkedBackups = await rrController.checkBackups(job.data);
 
       await postCardMessageToTeams(checkedBackups, job.data);
 

@@ -10,7 +10,10 @@ import {
   protectedMachineRequestHeaderSchema,
   protectedMachineResponseSchema,
 } from './ProtectedMachineSchema';
-import { MachineRequestBody, MachineRequestHeaders } from './MachineRequest';
+import {
+  MachineRequestBody,
+  MachineRequestHeaders,
+} from './RapidRecoveryConsts';
 
 export class MachineRequestSchemaTest extends TestSuite {
   public testName = 'MachineRequestSchema';
