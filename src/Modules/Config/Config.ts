@@ -64,6 +64,11 @@ export interface ConfigYML {
   teamsWebHook?: string;
 
   watchedMachines: WatchedMachine[];
+
+  /**
+   * Overwrite the existing task schedule
+   */
+  overwriteSchedule?: boolean;
 }
 
 export interface Config extends ConfigYML {
