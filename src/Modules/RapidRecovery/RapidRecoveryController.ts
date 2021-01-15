@@ -2,7 +2,7 @@
 import { request } from '@elastic.io/ntlm-client';
 import { differenceInHours } from 'date-fns';
 import { Readable } from 'stream';
-import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
+import { logger, LogMode } from '../../Library/Logging';
 import { Inject, Service } from 'typedi';
 import { postCriticalMessageToTeams } from '../../Library/Teams';
 import { CheckedMachine } from '../Checks/CheckedMachine';
