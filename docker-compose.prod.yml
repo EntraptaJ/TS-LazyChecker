@@ -20,8 +20,11 @@ services:
     configs:
       - source: TSCheckerConfig
         target: /app/config.yml
+    depends_on:
+      - Redis
     environment:
       NODE_TLS_REJECT_UNAUTHORIZED: '0'
+      LOG_LEVEL: 'DEBUG'
     networks:
       - internalRedis
 

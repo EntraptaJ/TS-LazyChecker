@@ -55,19 +55,7 @@ export class RapidRecoveryController {
    * @returns Promise resolving to array of Protected machines
    */
   public async getMachines(): Promise<ProtectedMachine[]> {
-    logger.log(
-      LogMode.DEBUG,
-      'getMachines()',
-      `${this.config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
-      'POST',
-      {
-        json: true,
-        headers: MachineRequestHeaders,
-        body: MachineRequestBody,
-      },
-      this.config.auth,
-      this.config,
-    );
+    logger.log(LogMode.DEBUG, 'getMachines()');
 
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     const { body } = await request({

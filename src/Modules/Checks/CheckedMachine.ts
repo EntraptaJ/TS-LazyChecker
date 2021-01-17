@@ -1,10 +1,9 @@
 // src/Modules/Checks/CheckedMachine.ts
+import hyperid from 'hyperid';
 import { ProtectedMachine } from '../RapidRecovery/MachineModel';
 
-let id = 0;
-
 export class CheckedMachine {
-  public id: number;
+  public id: string = hyperid().uuid;
 
   public machineName: string;
 
@@ -15,8 +14,6 @@ export class CheckedMachine {
   public machine: ProtectedMachine;
 
   public constructor(options: Partial<Omit<CheckedMachine, 'id'>>) {
-    this.id = id++;
-
     Object.assign(this, options);
   }
 }

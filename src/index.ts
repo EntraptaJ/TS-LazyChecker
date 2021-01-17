@@ -7,4 +7,4 @@ console.log(`Starting TS-LazyChecker`);
 
 await startScheduler();
 
-logger.log(LogMode.WARN, 'Started TS-LazyChecker');
+logger.log(LogMode.INFO, 'Started TS-LazyChecker');

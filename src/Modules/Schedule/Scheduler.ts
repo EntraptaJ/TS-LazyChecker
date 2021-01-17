@@ -22,17 +22,10 @@ export async function startScheduler(): Promise<Job> {
 
   logger.log(LogMode.INFO, 'Loaded Config');
 
-  console.log(await CheckerQue.getWorkers());
-
-  // if (appConfig.overwriteSchedule === true) {
-  //   logger.log(LogMode.INFO, 'Cleaning existing tasks to reset schedule');
-  //   await CheckerQue.clean(0);
-  // }
-
   const schedulerWorker = new Worker(
     'BackupChecker',
     async (job) => {
-      logger.log(LogMode.INFO, 'Running Task', job.data);
+      logger.log(LogMode.INFO, 'Running Task');
 
       const checkedBackups = await rrController.checkBackups();
 
@@ -50,7 +43,10 @@ export async function startScheduler(): Promise<Job> {
 
   logger.log(LogMode.DEBUG, `scheduleWorker: `, schedulerWorker);
 
-  await CheckerQue.clean(0, 5);
+  if (appConfig.overwriteSchedule === true) {
+    logger.log(LogMode.INFO, 'Cleaning existing tasks to reset schedule');
+    await CheckerQue.clean(0, 100);
+  }
 
   const job = await CheckerQue.add('BackupChecker', appConfig, {
     jobId: 'backups',
