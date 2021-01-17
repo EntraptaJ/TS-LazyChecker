@@ -61,7 +61,7 @@ export interface ConfigYML {
   /**
    * Microsoft Teams WebHook to alert
    */
-  teamsWebHook: string;
+  teamsWebHook?: string;
 
   watchedMachines: WatchedMachine[];
 }

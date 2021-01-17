@@ -1,10 +1,10 @@
 // src/Modules/Machines/MachineModel.ts
-import { AgentType, AgentTypeTooltip } from './AgentType';
+import { AgentType, AgentTypeTooltip } from './RapidRecoveryAgentType';
 
 /**
  * Rapid Recovery Protected Machine
  */
-export interface Machine {
+export interface ProtectedMachine {
   HasRecoveryPointsWithExchange: boolean;
 
   Id: string;

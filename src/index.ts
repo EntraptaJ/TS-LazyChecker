@@ -1,6 +1,7 @@
 // src/index.ts
 import { logger, LogMode } from './Library/Logging';
 import { startScheduler } from './Modules/Schedule/Scheduler';
+import './setup';
 
 console.log(`Starting TS-LazyChecker`);
 

@@ -1,0 +1,10 @@
+controllerUri: 'https://192.168.1.111:8006'
+
+auth:
+  username: administrator
+  password: password
+
+watchedMachines:
+  - name: RandomVM1
+    id: 22c85d9e-9a7f-4b7c-a52c-eb28584577dc
+    daysWithoutBackup: 0

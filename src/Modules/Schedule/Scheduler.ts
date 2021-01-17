@@ -1,9 +1,10 @@
 // src/Modules/Schedule/Scheduler.ts
 import { Job } from 'bull';
+import Container from 'typedi';
 import { logger, LogMode } from '../../Library/Logging';
 import { postCardMessageToTeams } from '../../Library/Teams';
-import { checkBackups } from '../Backups/checkBackups';
-import { loadConfig } from '../Config/loadConfig';
+import { configController } from '../Config/ConfigController';
+import { RapidRecoveryController } from '../RapidRecovery/RapidRecoveryController';
 import { CheckerQue } from './Que';
 
 /**
@@ -15,7 +16,9 @@ export async function startScheduler(): Promise<[void, Job]> {
 
   logger.log(LogMode.INFO, 'Starting Scheduler');
 
-  const appConfig = await loadConfig(configPath);
+  const appConfig = await configController.loadConfig(configPath);
+
+  const rrController = Container.get(RapidRecoveryController);
 
   logger.log(LogMode.INFO, 'Loaded Config');
 
@@ -26,9 +29,8 @@ export async function startScheduler(): Promise<[void, Job]> {
   return Promise.all([
     CheckerQue.process(1, async function (job) {
       logger.log(LogMode.INFO, 'Running Task');
-      console.log('HelloWorld');
 
-      const checkedBackups = await checkBackups(job.data);
+      const checkedBackups = await rrController.checkBackups();
 
       await postCardMessageToTeams(checkedBackups, job.data);
 

@@ -15,6 +15,10 @@ export async function postCardMessageToTeams(
   checkedMachines: CheckedMachine[],
   configYML: ConfigYML,
 ): Promise<boolean> {
+  if (typeof configYML.teamsWebHook === 'undefined') {
+    return false;
+  }
+
   const card = {
     '@context': 'https://schema.org/extensions',
     '@type': 'MessageCard',
@@ -60,11 +64,15 @@ export async function postCardMessageToTeams(
  *
  * @returns Promise resolving to true if everything was sent successfully, otherwise it throws an error.
  */
-export async function postCriticalMessageToTeamms(
+export async function postCriticalMessageToTeams(
   title: string,
   message: string,
   configYML: ConfigYML,
 ): Promise<boolean> {
+  if (typeof configYML.teamsWebHook === 'undefined') {
+    return false;
+  }
+
   const card = {
     '@context': 'https://schema.org/extensions',
     '@type': 'MessageCard',
