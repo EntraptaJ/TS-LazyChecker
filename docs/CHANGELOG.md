@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.0.1...v1.1.0) (2021-01-17)
+
+
+### Features
+
+* **Workers:** Fix minor issue work workers ([adf9705](https://github.com/KristianFJones/TS-LazyChecker/commit/adf97056bceb0bec1e744bde57f7a8def0b44a9f))
+
 ## [1.0.1](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.0.0...v1.0.1) (2021-01-17)
 
 
