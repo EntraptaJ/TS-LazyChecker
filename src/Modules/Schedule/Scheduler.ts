@@ -24,7 +24,10 @@ export async function startScheduler(): Promise<[void, Job]> {
 
   console.log(await CheckerQue.getWorkers());
 
-  await CheckerQue.clean(0);
+  if (appConfig.overwriteSchedule === true) {
+    logger.log(LogMode.INFO, 'Cleaning existing tasks to reset schedule');
+    await CheckerQue.clean(0);
+  }
 
   return Promise.all([
     CheckerQue.process(1, async function (job) {

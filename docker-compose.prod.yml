@@ -7,7 +7,6 @@ networks:
       config:
         - subnet: 172.16.42.0/24
 
-
 configs:
   TSCheckerConfig:
     name: TSCheckerConfig-1
@@ -21,6 +20,8 @@ services:
     configs:
       - source: TSCheckerConfig
         target: /app/config.yml
+    environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: '0'
     networks:
       - internalRedis
 
