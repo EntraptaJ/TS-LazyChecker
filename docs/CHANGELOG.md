@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.1.3...v1.2.0) (2021-01-17)
+
+
+### Features
+
+* Random commit to force release ([8d30e4e](https://github.com/KristianFJones/TS-LazyChecker/commit/8d30e4ef3fb795b57cb8d8f2a2fc733a905a17b3))
+
 ## [1.1.3](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.1.2...v1.1.3) (2021-01-17)
 
 
