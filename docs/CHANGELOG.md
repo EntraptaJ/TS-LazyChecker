@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.0.0...v1.0.1) (2021-01-17)
+
+
+### Bug Fixes
+
+* GH Registry Tag ([498b30f](https://github.com/KristianFJones/TS-LazyChecker/commit/498b30f1cf70ea437c8938dfa657892ce2ed662e))
+
 # 1.0.0 (2021-01-17)
 
 
