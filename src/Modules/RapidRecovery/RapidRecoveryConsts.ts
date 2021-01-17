@@ -2,6 +2,7 @@
 import type { RequestOptions } from '@elastic.io/ntlm-client';
 
 export const MachineRequestBody: RequestOptions['request']['body'] = {
+  _search: false,
   PageSize: 100,
   rows: 20,
   page: 1,
@@ -11,10 +12,9 @@ export const MachineRequestBody: RequestOptions['request']['body'] = {
   IsVirtualScrolling: false,
   SortOrder: 'asc',
   SortName: '',
-  ByContent: '',
 };
 
 export const MachineRequestHeaders: RequestOptions['request']['headers'] = {
   'Content-Type': 'application/json',
-  Cookie: 'CoreVersion=6.4.0.718',
+  Cookie: 'CoreVersion=6.5.0.724',
 };
