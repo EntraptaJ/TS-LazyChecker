@@ -43,4 +43,4 @@ export const protectedMachineRequestBodySchema = jsonSchema
   .prop('IsVirtualScrolling', jsonSchema.boolean().required())
   .prop('SortOrder', jsonSchema.string().required())
   .prop('SortName', jsonSchema.string().required())
-  .prop('ByContent', jsonSchema.string().required());
+  .prop('_search', jsonSchema.boolean().required());
