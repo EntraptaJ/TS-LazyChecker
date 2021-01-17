@@ -39,6 +39,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build Image
+        run: docker build -t kristianfjones/ts-lazychecker ./
+
       ## Run [semantic-release](https://github.com/semantic-release/semantic-release) auto release/publish system
       - name: Run semantic-release
         env: # Or as an environment variable

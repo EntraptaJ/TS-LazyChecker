@@ -10,7 +10,7 @@
       [
         '@eclass/semantic-release-docker',
         {
-          'baseImageName': 'ts-lazychecker',
+          'baseImageName': 'kristianfjones/ts-lazychecker',
           'registries':
             [
               {
