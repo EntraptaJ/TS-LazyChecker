@@ -21,7 +21,7 @@
               },
               {
                 'url': 'docker.pkg.github.com',
-                'imageName': 'docker.pkg.github.com/kristianfjones/ts-lazychecker',
+                'imageName': 'docker.pkg.github.com/kristianfjones/ts-lazychecker/ts-lazychecker',
                 'user': 'GITHUB_USER',
                 'password': 'GH_TOKEN',
               },
