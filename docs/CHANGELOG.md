@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.1.2...v1.1.3) (2021-01-17)
+
+
+### Bug Fixes
+
+* Yeah, no fucking clue why this works but it does ([fd602ca](https://github.com/KristianFJones/TS-LazyChecker/commit/fd602ca3faca788286a883dcadb000720406dba8))
+
 ## [1.1.2](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.1.1...v1.1.2) (2021-01-17)
 
 
