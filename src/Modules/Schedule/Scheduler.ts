@@ -32,7 +32,7 @@ export async function startScheduler(): Promise<Job> {
   const schedulerWorker = new Worker(
     'BackupChecker',
     async (job) => {
-      logger.log(LogMode.INFO, 'Running Task');
+      logger.log(LogMode.INFO, 'Running Task', job.data);
 
       const checkedBackups = await rrController.checkBackups();
 
@@ -56,11 +56,7 @@ export async function startScheduler(): Promise<Job> {
     jobId: 'backups',
     repeat: {
       cron: appConfig.schedule || `*/5 * * * *`,
-      startDate: appConfig.scheduleStartTime
-        ? new Date(appConfig.scheduleStartTime)
-        : undefined,
     },
-    timeout: 120000,
   });
 
   return job;

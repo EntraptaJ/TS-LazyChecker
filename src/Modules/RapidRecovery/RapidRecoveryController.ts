@@ -59,8 +59,17 @@ export class RapidRecoveryController {
       LogMode.DEBUG,
       'getMachines()',
       `${this.config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
+      'POST',
+      {
+        json: true,
+        headers: MachineRequestHeaders,
+        body: MachineRequestBody,
+      },
+      this.config.auth,
+      this.config,
     );
 
+    process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     const { body } = await request({
       uri: `${this.config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
       method: 'POST',
