@@ -69,6 +69,11 @@ export interface ConfigYML {
    * Overwrite the existing task schedule
    */
   overwriteSchedule?: boolean;
+
+  /**
+   * Time to reverse start schedule
+   */
+  scheduleStartTime?: string;
 }
 
 export interface Config extends ConfigYML {

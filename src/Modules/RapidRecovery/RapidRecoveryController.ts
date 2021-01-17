@@ -55,7 +55,11 @@ export class RapidRecoveryController {
    * @returns Promise resolving to array of Protected machines
    */
   public async getMachines(): Promise<ProtectedMachine[]> {
-    logger.log(LogMode.DEBUG, 'getMachines()');
+    logger.log(
+      LogMode.DEBUG,
+      'getMachines()',
+      `${this.config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
+    );
 
     const { body } = await request({
       uri: `${this.config.controllerUri}/apprecovery/admin/Core/ProtectedMachinesGridCallback`,
@@ -81,15 +85,11 @@ export class RapidRecoveryController {
    * Get and check all Backups
    */
   public async checkBackups(): Promise<CheckedMachine[]> {
-    logger.log(LogMode.DEBUG, 'Running checkBackups');
+    logger.log(LogMode.INFO, 'Running checkBackups');
 
     const protectedMachines = await this.getMachines();
 
-    logger.log(
-      LogMode.DEBUG,
-      'checkBackups() protectedMachines: ',
-      protectedMachines,
-    );
+    logger.log(LogMode.DEBUG, 'checkBackups() protectedMachines: ');
 
     /**
      * Map out all watched machine Ids into an string array

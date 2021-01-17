@@ -1,5 +1,5 @@
 // src/Modules/Schedule/Scheduler.ts
-import { Job } from 'bull';
+import { Job, Worker } from 'bullmq';
 import Container from 'typedi';
 import { logger, LogMode } from '../../Library/Logging';
 import { postCardMessageToTeams } from '../../Library/Teams';
@@ -11,7 +11,7 @@ import { CheckerQue } from './Que';
  * Start the TS-LazyChecker Job Scheduler
  * @returns Promise.all containing the process and added job of the scheduler
  */
-export async function startScheduler(): Promise<[void, Job]> {
+export async function startScheduler(): Promise<Job> {
   const configPath = process.env.CONFIG_PATH || 'config.yml';
 
   logger.log(LogMode.INFO, 'Starting Scheduler');
@@ -24,13 +24,14 @@ export async function startScheduler(): Promise<[void, Job]> {
 
   console.log(await CheckerQue.getWorkers());
 
-  if (appConfig.overwriteSchedule === true) {
-    logger.log(LogMode.INFO, 'Cleaning existing tasks to reset schedule');
-    await CheckerQue.clean(0);
-  }
+  // if (appConfig.overwriteSchedule === true) {
+  //   logger.log(LogMode.INFO, 'Cleaning existing tasks to reset schedule');
+  //   await CheckerQue.clean(0);
+  // }
 
-  return Promise.all([
-    CheckerQue.process(1, async function (job) {
+  const schedulerWorker = new Worker(
+    'BackupChecker',
+    async (job) => {
       logger.log(LogMode.INFO, 'Running Task');
 
       const checkedBackups = await rrController.checkBackups();
@@ -38,14 +39,29 @@ export async function startScheduler(): Promise<[void, Job]> {
       await postCardMessageToTeams(checkedBackups, job.data);
 
       logger.log(LogMode.INFO, 'Posted to Teams');
-
-      await job.moveToCompleted();
-    }),
-    CheckerQue.add(appConfig, {
-      jobId: 'backups',
-      repeat: {
-        cron: appConfig.schedule || `*/1 * * * *`,
+    },
+    {
+      connection: {
+        host: process.env.REDIS_HOST || 'Redis',
       },
-    }),
-  ]);
+      concurrency: 1,
+    },
+  );
+
+  logger.log(LogMode.DEBUG, `scheduleWorker: `, schedulerWorker);
+
+  await CheckerQue.clean(0, 5);
+
+  const job = await CheckerQue.add('BackupChecker', appConfig, {
+    jobId: 'backups',
+    repeat: {
+      cron: appConfig.schedule || `*/5 * * * *`,
+      startDate: appConfig.scheduleStartTime
+        ? new Date(appConfig.scheduleStartTime)
+        : undefined,
+    },
+    timeout: 120000,
+  });
+
+  return job;
 }
