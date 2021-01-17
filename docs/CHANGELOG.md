@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.1.0...v1.1.1) (2021-01-17)
+
+
+### Bug Fixes
+
+* More debugging ([7e136e3](https://github.com/KristianFJones/TS-LazyChecker/commit/7e136e30898b8833463fa2986e1ff68ce0408c87))
+
 # [1.1.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.0.1...v1.1.0) (2021-01-17)
 
 
