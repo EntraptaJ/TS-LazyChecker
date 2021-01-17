@@ -23,7 +23,7 @@ RUN npm ci
 
 
 
-FROM node:alpine3.12
+FROM node:14.11-slim
 WORKDIR /app
 
 COPY --from=fetcher /app/node_modules /app/node_modules
