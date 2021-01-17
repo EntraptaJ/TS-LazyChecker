@@ -1,0 +1,40 @@
+{
+  'plugins':
+    [
+      [
+        '@semantic-release/commit-analyzer',
+        { 'preset': 'conventionalcommits' },
+      ],
+      '@semantic-release/release-notes-generator',
+      ['@semantic-release/changelog', { 'changelogFile': 'docs/CHANGELOG.md' }],
+      [
+        '@eclass/semantic-release-docker',
+        {
+          'baseImageName': 'ts-lazychecker',
+          'registries':
+            [
+              {
+                'url': 'docker.io',
+                'imageName': 'docker.io/kristianfjones/ts-lazychecker',
+                'user': 'DOCKER_USERNAME',
+                'password': 'DOCKER_PASSWORD',
+              },
+              {
+                'url': 'docker.pkg.github.com',
+                'imageName': 'docker.pkg.github.com/kristianfjones/ts-lazychecker',
+                'user': 'GITHUB_USER',
+                'password': 'GH_TOKEN',
+              },
+            ],
+        },
+      ],
+      [
+        '@semantic-release/git',
+        {
+          'assets': ['docs/CHANGELOG.md', 'package.json', 'package-lock.json'],
+        },
+      ],
+      '@semantic-release/github',
+    ],
+  'branches': ['master'],
+}
