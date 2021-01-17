@@ -41,4 +41,9 @@ jobs:
 
       ## Run [semantic-release](https://github.com/semantic-release/semantic-release) auto release/publish system
       - name: Run semantic-release
+        env: # Or as an environment variable
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          GITHUB_USER: KristianFJones
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: npx semantic-release
