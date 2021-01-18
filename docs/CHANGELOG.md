@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.3.2...v1.4.0) (2021-01-18)
+
+
+### Features
+
+* **Teams:** Refactor Teams into a TypeDI Service ([156940a](https://github.com/KristianFJones/TS-LazyChecker/commit/156940ab9a77e38efc4b8f3834f580bc23a960a5))
+
 ## [1.3.2](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.3.1...v1.3.2) (2021-01-18)
 
 
