@@ -3,6 +3,7 @@ import jsonSchema from 'fluent-json-schema';
 
 const protectedMachineSchema = jsonSchema
   .object()
+  .id('#rrProtectedMachine')
   .prop('HasRecoveryPointsWithExchange', jsonSchema.boolean())
   .prop('Id', jsonSchema.string())
   .prop('DisplayName', jsonSchema.string())
@@ -25,7 +26,7 @@ export const protectedMachineResponseSchema = jsonSchema
   .prop('total', jsonSchema.number())
   .prop('page', jsonSchema.number())
   .prop('records', jsonSchema.number())
-  .definition('rows', protectedMachineSchema);
+  .prop('rows', jsonSchema.array().items(protectedMachineSchema));
 
 export const protectedMachineRequestHeaderSchema = jsonSchema
   .object()

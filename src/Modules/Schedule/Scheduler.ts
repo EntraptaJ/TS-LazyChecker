@@ -6,6 +6,8 @@ import { postCardMessageToTeams } from '../../Library/Teams';
 import { configController } from '../Config/ConfigController';
 import { RapidRecoveryController } from '../RapidRecovery/RapidRecoveryController';
 import { CheckerQue } from './Que';
+import parser from 'cron-parser';
+import { differenceInHours } from 'date-fns';
 
 /**
  * Start the TS-LazyChecker Job Scheduler
@@ -41,7 +43,17 @@ export async function startScheduler(): Promise<Job> {
     },
   );
 
+  const cron = appConfig.schedule || `*/5 * * * *`;
+  const lastDate = parser.parseExpression(cron).prev().toDate();
+
   logger.log(LogMode.DEBUG, `scheduleWorker: `, schedulerWorker);
+  logger.log(
+    LogMode.INFO,
+    `Cron last ${lastDate.toISOString()} ${differenceInHours(
+      new Date(),
+      lastDate,
+    )}`,
+  );
 
   if (appConfig.overwriteSchedule === true) {
     logger.log(LogMode.INFO, 'Cleaning existing tasks to reset schedule');
@@ -51,7 +63,10 @@ export async function startScheduler(): Promise<Job> {
   const job = await CheckerQue.add('BackupChecker', appConfig, {
     jobId: 'backups',
     repeat: {
-      cron: appConfig.schedule || `*/5 * * * *`,
+      cron,
+      startDate: appConfig.scheduleStartTime
+        ? new Date(appConfig.scheduleStartTime)
+        : undefined,
     },
   });
 

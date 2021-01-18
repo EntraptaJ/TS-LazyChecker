@@ -12,13 +12,15 @@
     "dev": "nodemon",
     "prettier": "prettier --config .prettierrc --check \"src/**/*ts\"",
     "lint": "eslint ./src --ext .js,.ts",
-    "listMachines": "node --loader @k-foss/ts-esnode --experimental-modules --experimental-specifier-resolution=node --harmony-top-level-await ./src/bin/listMachines.ts"
+    "listMachines": "node --loader @k-foss/ts-esnode --experimental-modules --experimental-specifier-resolution=node --harmony-top-level-await ./src/bin/listMachines.ts",
+    "run:generateSchema": "node --loader @k-foss/ts-esnode --experimental-modules --experimental-specifier-resolution=node --harmony-top-level-await ./src/bin/generateSchema.ts"
   },
   "dependencies": {
     "@elastic.io/ntlm-client": "^1.0.0",
     "@k-foss/ts-esnode": "^1.7.0",
     "ajv": "^7.0.3",
     "bullmq": "^1.14.0",
+    "cron-parser": "^3.1.0",
     "date-fns": "^2.16.1",
     "fluent-json-schema": "^2.0.3",
     "got": "^11.8.1",
