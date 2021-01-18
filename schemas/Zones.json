@@ -1,0 +1,1 @@
+{"$schema":"http://json-schema.org/draft-07/schema#","type":"object","properties":{"zones":{"type":"array","items":{"type":"object","properties":{"name":{"type":"string","description":"Zone friendly name"},"id":{"type":"number","description":"Security Zone Id"}},"required":["name"]}}},"required":["zones"]}

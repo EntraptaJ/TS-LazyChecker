@@ -29,6 +29,11 @@ const schemas: SchemaFile[] = [
     importModule: () => import('../Modules/Config/ConfigSchema'),
     schemaName: 'Config',
   },
+  {
+    importModule: () =>
+      import('../Modules/SecurityZones/SecurityZoneConfigSchema'),
+    schemaName: 'Zones',
+  },
 ];
 
 const selectedSchema = schemas.find(

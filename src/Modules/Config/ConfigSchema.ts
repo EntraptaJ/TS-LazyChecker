@@ -1,6 +1,5 @@
 // src/Modules/Config/ConfigSchema.ts
 import jsonSchema from 'fluent-json-schema';
-import { networkConfigSchema } from '../Networks/NetworkConfigSchema';
 
 const configAuthSchema = jsonSchema
   .object()
@@ -39,7 +38,6 @@ const watchedMachineSchema = jsonSchema
 
 export const configSchema = jsonSchema
   .object()
-  .prop('networks', jsonSchema.array().items(networkConfigSchema))
   .prop(
     'controllerUri',
     jsonSchema
@@ -48,6 +46,7 @@ export const configSchema = jsonSchema
       .description('RapidRecovery Web URI')
       .required(),
   )
+  .prop('zoneConfigFilePath', jsonSchema.string().default('zones.yml'))
   .definition('auth', configAuthSchema)
   .prop('auth', configAuthSchema)
   .prop(

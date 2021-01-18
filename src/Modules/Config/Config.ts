@@ -1,6 +1,5 @@
 // src/Modules/Configs/Config.ts
 import { PathLike } from 'fs';
-import { NetworkConfig } from '../Networks/NetworkConfig';
 
 interface WatchedMachine {
   /**
@@ -39,14 +38,14 @@ export interface ConfigYML {
   controllerUri: string;
 
   /**
-   * Configured Networks
-   */
-  networks: NetworkConfig[];
-
-  /**
    * Server Configuration File Path
    */
   serverConfigFilePath?: PathLike;
+
+  /**
+   * Security Zones Configuration File Path
+   */
+  zoneConfigFilePath?: PathLike;
 
   /**
    * Microsoft Teams Config
