@@ -1,4 +1,5 @@
 // src/bin/listMachines.ts
+import '../setup';
 import Container from 'typedi';
 import { configController } from '../Modules/Config/ConfigController';
 import { RapidRecoveryController } from '../Modules/RapidRecovery/RapidRecoveryController';
