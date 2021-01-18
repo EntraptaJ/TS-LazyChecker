@@ -9,7 +9,8 @@
     "dbaeumer.vscode-eslint",
     "github.vscode-codeql",
     "visualstudioexptteam.vscodeintellicode",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "redhat.vscode-yaml"
   ],
   "workspaceFolder": "/workspace",
   "postCreateCommand": "npm i"

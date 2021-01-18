@@ -1,4 +1,5 @@
 // src/Modules/Configs/Config.ts
+import { PathLike } from 'fs';
 
 interface WatchedMachine {
   /**
@@ -35,6 +36,11 @@ export interface ConfigYML {
    * Rapid Recovery Uri
    */
   controllerUri: string;
+
+  /**
+   * Server Configuration File Path
+   */
+  serverConfigFilePath?: PathLike;
 
   /**
    * Microsoft Teams Config
