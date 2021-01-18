@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.2.0...v1.3.0) (2021-01-18)
+
+
+### Features
+
+* **Config-Schema:** Finish creating the config.yml schema ([d59a8f6](https://github.com/KristianFJones/TS-LazyChecker/commit/d59a8f6ba2577ecf5eadcb9dbec04a87c444beb0))
+* Begin work on Schemas ([7960aa3](https://github.com/KristianFJones/TS-LazyChecker/commit/7960aa3624dc53477037ff8ba0e6682c9ec8f68c))
+
 # [1.2.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.1.3...v1.2.0) (2021-01-17)
 
 
