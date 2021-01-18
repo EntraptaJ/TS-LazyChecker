@@ -1,5 +1,6 @@
 // src/Modules/Config/ConfigSchema.ts
 import jsonSchema from 'fluent-json-schema';
+import { networkConfigSchema } from '../Networks/NetworkConfigSchema';
 
 const configAuthSchema = jsonSchema
   .object()
@@ -38,6 +39,7 @@ const watchedMachineSchema = jsonSchema
 
 export const configSchema = jsonSchema
   .object()
+  .prop('networks', jsonSchema.array().items(networkConfigSchema))
   .prop(
     'controllerUri',
     jsonSchema

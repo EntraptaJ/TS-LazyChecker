@@ -1,7 +1,8 @@
-FROM node:alpine3.12 as builder
+FROM node:14.11-slim as builder
 WORKDIR /app
 
 COPY ./package.json ./package-lock.json ./
+
 RUN npm ci
 
 COPY ./tsconfig.json ./tsconfig.build.json ./index.d.ts ./
@@ -12,7 +13,7 @@ RUN NODE_ENV=production npm run build
 
 
 
-FROM node:alpine3.12 as fetcher
+FROM node:14.11-slim as fetcher
 WORKDIR /app
 
 COPY ./package.json ./package-lock.json ./
