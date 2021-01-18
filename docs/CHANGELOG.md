@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.3.1...v1.3.2) (2021-01-18)
+
+
+### Bug Fixes
+
+* **Consts:** Request 200 Machines in the request ([6a1de6b](https://github.com/KristianFJones/TS-LazyChecker/commit/6a1de6b006fa73f57a4ac609497cea7ddfc3017a))
+
 ## [1.3.1](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.3.0...v1.3.1) (2021-01-18)
 
 
