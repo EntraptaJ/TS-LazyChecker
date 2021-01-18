@@ -3,8 +3,8 @@ import type { RequestOptions } from '@elastic.io/ntlm-client';
 
 export const MachineRequestBody: RequestOptions['request']['body'] = {
   _search: false,
-  PageSize: 100,
-  rows: 20,
+  PageSize: 200,
+  rows: 200,
   page: 1,
   sidx: '',
   sord: 'asc',
