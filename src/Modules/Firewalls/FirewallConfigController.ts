@@ -2,52 +2,24 @@
 import { readFile } from 'fs/promises';
 import { load } from 'js-yaml';
 import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
+import { isObjectType } from 'ts-lazychecker/Utils/isTypes';
 import Container, { Inject, Service } from 'typedi';
 import type { Config } from '../Config/Config';
+import { ConfigToken } from '../Config/Config';
 import { Firewall, FirewallToken } from './Firewall';
 import { FirewallConfigFileYAML } from './FirewallConfig';
 import { FirewallController } from './FirewallController';
 
 @Service()
 export class FirewallConfigController {
-  @Inject('config')
+  @Inject(ConfigToken)
   public config: Config;
 
   public firewalls: Firewall[];
 
   /**
-   * Ensure a object is an Config
-   * @param config Config Object
+   * Load the configured firewalls configuration file from disk, parse the YAML and load into the class
    */
-  public isConfig(
-    config:
-      | FirewallConfigFileYAML
-      | string
-      | number
-      | undefined
-      | null
-      // eslint-disable-next-line @typescript-eslint/ban-types
-      | object,
-  ): config is FirewallConfigFileYAML {
-    if (
-      typeof config === 'string' ||
-      Array.isArray(config) ||
-      typeof config === 'number' ||
-      typeof config === 'undefined' ||
-      config === null
-    ) {
-      return false;
-    }
-
-    console.log('Fucker?', config.firewalls);
-
-    if ('firewalls' in config) {
-      return true;
-    }
-
-    return false;
-  }
-
   public async loadFile(): Promise<void> {
     const firewallsConfigFilePath = 'firewalls.yml';
 
@@ -55,12 +27,12 @@ export class FirewallConfigController {
 
     const firewallsConfigFile = load(firewallsFile.toString());
 
-    console.log(firewallsConfigFile);
-
-    if (this.isConfig(firewallsConfigFile)) {
+    if (
+      isObjectType<FirewallConfigFileYAML>(firewallsConfigFile, 'firewalls')
+    ) {
       logger.log(
         LogMode.INFO,
-        'Loaded Security Zone Configuration File',
+        'Loaded Firewalls Configuration File',
         firewallsConfigFile,
       );
 

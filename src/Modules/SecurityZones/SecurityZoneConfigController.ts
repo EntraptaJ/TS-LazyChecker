@@ -1,47 +1,18 @@
 // src/Modules/SecurityZones/SecurityZoneConfigController.ts
 import { readFile } from 'fs/promises';
 import { load } from 'js-yaml';
-import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
+import { logger, LogMode } from '../../Library/Logging';
+import { isObjectType } from '../../Utils/isTypes';
 import { Inject, Service } from 'typedi';
-import { Config } from '../Config/Config';
+import { ConfigToken } from '../Config/Config';
+import type { Config } from '../Config/Config';
 import { SecurityZone } from './SecurityZone';
 import { SecurityZoneConfigYAML } from './SecurityZoneConfig';
 
 @Service()
 export class SecurityZoneConfigController {
-  @Inject('config')
+  @Inject(ConfigToken)
   public config: Config;
-
-  /**
-   * Ensure a object is an Config
-   * @param config Config Object
-   */
-  public isConfig(
-    config:
-      | SecurityZoneConfigYAML
-      | string
-      | number
-      | undefined
-      | null
-      // eslint-disable-next-line @typescript-eslint/ban-types
-      | object,
-  ): config is SecurityZoneConfigYAML {
-    if (
-      typeof config === 'string' ||
-      Array.isArray(config) ||
-      typeof config === 'number' ||
-      typeof config === 'undefined' ||
-      config === null
-    ) {
-      return false;
-    }
-
-    if ('zones' in config) {
-      return true;
-    }
-
-    return false;
-  }
 
   public async loadZoneFile(): Promise<void> {
     const securityZoneFilePath = this.config.zoneConfigFilePath || 'config.yml';
@@ -50,7 +21,7 @@ export class SecurityZoneConfigController {
 
     const securityZoneConfig = load(securityZoneFile.toString());
 
-    if (this.isConfig(securityZoneConfig)) {
+    if (isObjectType<SecurityZoneConfigYAML>(securityZoneConfig, 'zones')) {
       logger.log(
         LogMode.INFO,
         'Loaded Security Zone Configuration File',

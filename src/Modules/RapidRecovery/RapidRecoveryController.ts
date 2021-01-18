@@ -8,6 +8,7 @@ import { logger, LogMode } from '../../Library/Logging';
 import { TeamsController } from '../../Library/Teams/TeamsController';
 import { CheckedMachine } from '../Checks/CheckedMachine';
 import type { Config } from '../Config/Config';
+import { ConfigToken } from '../Config/Config';
 import { ProtectedMachine } from './MachineModel';
 import {
   MachineRequestBody,
@@ -20,7 +21,7 @@ interface RESTResponse {
 
 @Service()
 export class RapidRecoveryController {
-  @Inject('config')
+  @Inject(ConfigToken)
   public config: Config;
 
   public constructor(private teamsController: TeamsController) {}

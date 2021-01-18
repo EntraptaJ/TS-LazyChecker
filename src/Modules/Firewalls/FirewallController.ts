@@ -1,6 +1,7 @@
 // src/Modules/Firewalls/FirewallController.ts
 import type { CancelableRequest, Got, OptionsOfJSONResponseBody } from 'got';
 import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
+import { isObjectType } from 'ts-lazychecker/Utils/isTypes';
 import { timeout } from 'ts-lazychecker/Utils/timeout';
 import { Inject, Service } from 'typedi';
 import { FirewallDiagnosticInterfaceNames } from './Diagnostics/Interface/FirewallDiagnosticInterfaceNames';
@@ -8,6 +9,7 @@ import { FirewallDiagnosticsInterfaceARP } from './Diagnostics/Interface/Firewal
 import { FirewallDiagnosticsInterfaceRoute } from './Diagnostics/Interface/FirewallDiagnosticsInterfaceRoute';
 import { Firewall, FirewallToken, FWGotAPIToken } from './Firewall';
 import { FirewallGateway } from './FirewallGateway';
+import { FirewallResult } from './FirewallResult';
 import { FirewallAlias } from './Firewalls/Alias/FirewallAlias';
 
 // type Got = import('got').Got;
@@ -52,24 +54,16 @@ export class FirewallController {
   private isItemsResponse<T>(
     response: ItemsResponse<T> | Record<string, unknown>,
   ): response is ItemsResponse<T> {
-    if ('items' in response) {
-      return true;
-    }
-
-    return false;
+    return isObjectType<ItemsResponse<T>>(response, 'items');
   }
 
   private isSearchResponse<T>(
     response: SearchResponse<T> | Record<string, unknown>,
   ): response is SearchResponse<T> {
-    if ('rows' in response) {
-      return true;
-    }
-
-    return false;
+    return isObjectType<SearchResponse<T>>(response, 'rows');
   }
 
-  private isArrayResponse<T>(response: T[]): response is T[] {
+  /*   private isArrayResponse<T>(response: T[]): response is T[] {
     if (Array.isArray(response)) {
       return true;
     }
@@ -94,7 +88,7 @@ export class FirewallController {
     }
 
     throw new Error('Invalid response and/or request');
-  }
+  } */
 
   private async getItemsRequest<T>(path: string): Promise<T[]> {
     const apiResponse = await this.createRequest<ItemsResponse<T>>(path);
@@ -133,49 +127,29 @@ export class FirewallController {
 
   public async createFirewallAlias(
     input: Omit<FirewallAlias, 'uuid'>,
-  ): Promise<boolean> {
-    const apiResponse = await this.createRequest(
-      `/api/firewall/alias/addItem/`,
-      {
-        method: 'POST',
-        json: {
-          alias: input,
-        },
+  ): Promise<FirewallResult> {
+    return this.createRequest(`/api/firewall/alias/addItem/`, {
+      method: 'POST',
+      json: {
+        alias: input,
       },
-    );
-
-    logger.log(LogMode.DEBUG, `createFirewallAlias`, apiResponse);
+    });
   }
 
   public async updateFirewallAlias(
     uuid: string,
     input: Omit<FirewallAlias, 'uuid'>,
-  ): Promise<boolean> {
-    const apiResponse = await this.createRequest(
-      `/api/firewall/alias/setItem/${uuid}`,
-      {
-        method: 'POST',
-        json: {
-          alias: input,
-        },
+  ): Promise<FirewallResult> {
+    return this.createRequest(`/api/firewall/alias/setItem/${uuid}`, {
+      method: 'POST',
+      json: {
+        alias: input,
       },
-    );
-
-    logger.log(LogMode.DEBUG, `updateFirewallAlias: `, apiResponse);
+    });
   }
 
-  public async getGateways(): Promise<void> {
-    const response = await this.getItemsRequest<FirewallGateway>(
-      '/api/routes/gateway/status',
-    );
-
-    response.map((gateway) => {
-      logger.log(
-        LogMode.DEBUG,
-        `FirewallController.getGateways() gateway: `,
-        gateway,
-      );
-    });
+  public async getGateways(): Promise<FirewallGateway[]> {
+    return this.getItemsRequest<FirewallGateway>('/api/routes/gateway/status');
   }
 
   public getDiagnosticsInterfaceRoutes(): Promise<

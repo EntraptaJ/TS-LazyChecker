@@ -1,5 +1,8 @@
 // src/Modules/Configs/Config.ts
 import { PathLike } from 'fs';
+import { Token } from 'typedi';
+
+export const ConfigToken = new Token<string>('config');
 
 interface WatchedMachine {
   /**

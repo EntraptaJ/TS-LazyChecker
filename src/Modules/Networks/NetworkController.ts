@@ -1,11 +1,11 @@
 // src/Modules/Networks/NetworkController.ts
-import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
+import { logger, LogMode } from '../../Library/Logging';
 import { Inject, Service } from 'typedi';
-import type { Config } from '../Config/Config';
+import { Config, ConfigToken } from '../Config/Config';
 
 @Service()
 export class NetworkController {
-  @Inject('config')
+  @Inject(ConfigToken)
   public config: Config;
 
   // eslint-disable-next-line @typescript-eslint/require-await

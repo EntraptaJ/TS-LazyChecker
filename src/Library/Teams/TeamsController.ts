@@ -2,6 +2,7 @@
 import got from 'got';
 import { Inject, Service } from 'typedi';
 import type { Config } from '../../Modules/Config/Config';
+import { ConfigToken } from '../../Modules/Config/Config';
 import { logger, LogMode } from '../Logging';
 import { MessageCard } from './MessageCardInput';
 
@@ -13,7 +14,7 @@ interface CriticalMessageOptions {
 
 @Service()
 export class TeamsController {
-  @Inject('config')
+  @Inject(ConfigToken)
   public config: Config;
 
   public async postMessageCard(messageCard: MessageCard): Promise<boolean> {
