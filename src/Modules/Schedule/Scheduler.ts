@@ -2,7 +2,6 @@
 import { Job, Worker } from 'bullmq';
 import Container from 'typedi';
 import { logger, LogMode } from '../../Library/Logging';
-import { postCardMessageToTeams } from '../../Library/Teams';
 import { configController } from '../Config/ConfigController';
 import { RapidRecoveryController } from '../RapidRecovery/RapidRecoveryController';
 import { CheckerQue } from './Que';
@@ -25,12 +24,12 @@ export async function startScheduler(): Promise<Job> {
 
   const schedulerWorker = new Worker(
     'BackupChecker',
-    async (job) => {
+    async () => {
       logger.log(LogMode.INFO, 'Running Task');
 
       const checkedBackups = await rrController.checkBackups();
 
-      await postCardMessageToTeams(checkedBackups, job.data);
+      await rrController.postTeamsDigest(checkedBackups);
 
       logger.log(LogMode.INFO, 'Posted to Teams');
     },

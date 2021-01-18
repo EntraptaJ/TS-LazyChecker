@@ -1,10 +1,11 @@
+/* eslint-disable no-useless-constructor */
 // src/Modules/RapidRecovery/RapidRecoveryController.ts
 import { request } from '@elastic.io/ntlm-client';
 import { differenceInHours } from 'date-fns';
 import { Readable } from 'stream';
-import { logger, LogMode } from '../../Library/Logging';
 import { Inject, Service } from 'typedi';
-import { postCriticalMessageToTeams } from '../../Library/Teams';
+import { logger, LogMode } from '../../Library/Logging';
+import { TeamsController } from '../../Library/Teams/TeamsController';
 import { CheckedMachine } from '../Checks/CheckedMachine';
 import type { Config } from '../Config/Config';
 import { ProtectedMachine } from './MachineModel';
@@ -21,6 +22,8 @@ interface RESTResponse {
 export class RapidRecoveryController {
   @Inject('config')
   public config: Config;
+
+  public constructor(private teamsController: TeamsController) {}
 
   /**
    * Validate that an object is a valid RapidRecovery API Response.
@@ -45,6 +48,34 @@ export class RapidRecoveryController {
     }
 
     return false;
+  }
+
+  public async postTeamsDigest(
+    checkedMachines: CheckedMachine[],
+  ): Promise<void> {
+    const sections = checkedMachines.map((checkedMachine) => ({
+      activityTitle: `${checkedMachine.machineName} Backups`,
+      text: `Backup dates have been checked`,
+      facts: [
+        {
+          name: 'Last Backup:',
+          value: new Date(checkedMachine.machine.LastSnapshot).toLocaleString(
+            'en-US',
+          ),
+        },
+        {
+          name: 'Days since Snapshot:',
+          value: checkedMachine.daysSinceLastSnapshot,
+        },
+      ],
+    }));
+
+    await this.teamsController.postMessageCard({
+      themeColor: '0072C6',
+      title: 'TS-LazyChecker Backups',
+      text: 'Monitored Machines have been checked.',
+      sections,
+    });
   }
 
   /**
@@ -133,11 +164,10 @@ export class RapidRecoveryController {
 
           logger.log(LogMode.WARN, warnMessage);
 
-          await postCriticalMessageToTeams(
-            `Backup Checker ${watchedEntry.name} backup error`,
-            warnMessage,
-            this.config,
-          );
+          await this.teamsController.postCriticalMessageToTeams({
+            title: `Backup Checker ${watchedEntry.name} backup error`,
+            text: warnMessage,
+          });
         }
 
         return new CheckedMachine({
