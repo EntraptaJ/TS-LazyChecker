@@ -2,4 +2,4 @@ FROM node:14.11-slim
 
 USER root
 # [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends git sudo ca-certificates
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends git sudo ca-certificates python3 build-essential

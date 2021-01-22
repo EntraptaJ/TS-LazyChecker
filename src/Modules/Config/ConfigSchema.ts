@@ -3,6 +3,7 @@ import jsonSchema from 'fluent-json-schema';
 
 const configAuthSchema = jsonSchema
   .object()
+  .additionalProperties(false)
   .id('auth')
   .description('Rapid Recovery Authenication Information')
   .prop('username', jsonSchema.string().required())
@@ -10,6 +11,7 @@ const configAuthSchema = jsonSchema
 
 const watchedMachineSchema = jsonSchema
   .object()
+  .additionalProperties(false)
   .id('watchedMachine')
   .definition('TS-LazyChecker monitored servers')
   .prop(
@@ -38,15 +40,17 @@ const watchedMachineSchema = jsonSchema
 
 export const configSchema = jsonSchema
   .object()
+  .additionalProperties(false)
   .prop(
     'controllerUri',
     jsonSchema
       .string()
       .format(jsonSchema.FORMATS.URI)
       .description('RapidRecovery Web URI')
+      .examples(['http://172.28.11.111:8888'])
       .required(),
   )
-  .definition('auth', configAuthSchema)
+  .prop('zoneConfigFilePath', jsonSchema.string().default('zones.yml'))
   .prop('auth', configAuthSchema)
   .prop(
     'overwriteSchedule',
@@ -62,7 +66,7 @@ export const configSchema = jsonSchema
     jsonSchema
       .number()
       .description(
-        'Default days before a machine triggers an alert due to missed snapshots/backups',
+        'Default days before a machine triggers an alert due to missed snapshots/backups\n@default 1',
       )
       .default(1),
   )
@@ -74,9 +78,19 @@ export const configSchema = jsonSchema
   )
   .prop(
     'schedule',
-    jsonSchema.string().description('Crontab string for check schedule'),
+    jsonSchema
+      .string()
+      .description('Crontab string for check schedule\n@default `*/5 * * * *`')
+      .default('*/5 * * * *'),
   )
   .prop(
     'watchedMachines',
-    jsonSchema.array().items(watchedMachineSchema).required(),
-  );
+    jsonSchema
+      .array()
+      .items(watchedMachineSchema)
+      .description(
+        'Array of RapidRecovery Machines to check and ensure backups/snapshots',
+      )
+      .required(),
+  )
+  .required(['auth']);

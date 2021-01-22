@@ -2,7 +2,8 @@
 import { TestSuite } from '@k-foss/ts-estests';
 import Container from 'typedi';
 import '../../setup';
-import { Config } from '../Config/Config';
+import type { Config } from '../Config/Config';
+import { ConfigToken } from '../Config/ConfigController';
 import { createMachineServer } from './fixtures/MachineServer';
 import { RapidRecoveryController } from './RapidRecoveryController';
 
@@ -35,7 +36,7 @@ export class GetMachineTest extends TestSuite {
       defaultDaysWithoutBackup: 1,
     };
 
-    Container.set<Config>('config', config);
+    Container.set<Config>(ConfigToken, config);
 
     const rrController = Container.get(RapidRecoveryController);
 

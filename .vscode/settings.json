@@ -1,6 +1,8 @@
 {
   "typescript.tsdk": "/workspace/node_modules/typescript/lib",
   "yaml.schemas": {
-    "/workspace/schemas/Config.json": ["config.yaml", "config.yml"],
+    "/workspace/schemas/Config.json": ["config.yaml", "config.yml", "/workspace/src/Modules/Config/Fixtures/*.yaml"],
+    "/workspace/schemas/Zones.json": ["zones.yaml", "zones.yml"],
+    "/workspace/schemas/Firewalls.json": ["firewalls.yaml", "firewalls.yml"],
   },
 }
