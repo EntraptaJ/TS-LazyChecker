@@ -59,6 +59,7 @@ export class FirewallConfigController {
     const container = Container.of(firewall.id);
 
     container.set(FirewallToken, firewall);
+    container.set(ConfigToken, this.config);
 
     return container.get(FirewallController);
   }

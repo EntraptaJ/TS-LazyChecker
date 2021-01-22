@@ -1,6 +1,13 @@
 /* eslint-disable no-useless-constructor */
 // src/Modules/RapidRecovery/RapidRecoveryController.ts
 import { request } from '@elastic.io/ntlm-client';
+import {
+  AdaptiveCard,
+  Version,
+  Container as CardContainer,
+  FactSet,
+  Fact,
+} from 'adaptivecards';
 import { differenceInHours } from 'date-fns';
 import { Readable } from 'stream';
 import { Inject, Service } from 'typedi';
@@ -51,32 +58,54 @@ export class RapidRecoveryController {
     return false;
   }
 
+  public createTeamsContainer(checkedMachine: CheckedMachine): CardContainer {
+    const container = new CardContainer();
+
+    const cardHeader = this.teamsController.createHeaderContainer(
+      `${checkedMachine.machineName} Checks`,
+    );
+    container.addItem(cardHeader);
+
+    const lastBackupFact = new Fact(
+      'Last Snapshot',
+      new Date(checkedMachine.machine.LastSnapshot).toLocaleString('en-US'),
+    );
+    const daysSinceLastSnapshotFact = new Fact(
+      'Days since Snapshot',
+      checkedMachine.daysSinceLastSnapshot.toString(),
+    );
+
+    const factSet = new FactSet();
+    factSet.facts.push(lastBackupFact, daysSinceLastSnapshotFact);
+    container.addItem(factSet);
+
+    return container;
+  }
+
+  public generateTeamsCard(checkedMachines: CheckedMachine[]): AdaptiveCard {
+    const card = new AdaptiveCard();
+    card.version = new Version(1, 2);
+
+    const coreTitleColumn = this.teamsController.createHeaderContainer(
+      'TS-LazyChecker Checks',
+    );
+    card.addItem(coreTitleColumn);
+
+    const containers = checkedMachines.map((checkedMachine) =>
+      this.createTeamsContainer(checkedMachine),
+    );
+
+    containers.map((container) => card.addItem(container));
+
+    return card;
+  }
+
   public async postTeamsDigest(
     checkedMachines: CheckedMachine[],
-  ): Promise<void> {
-    const sections = checkedMachines.map((checkedMachine) => ({
-      activityTitle: `${checkedMachine.machineName} Backups`,
-      text: `Backup dates have been checked`,
-      facts: [
-        {
-          name: 'Last Backup:',
-          value: new Date(checkedMachine.machine.LastSnapshot).toLocaleString(
-            'en-US',
-          ),
-        },
-        {
-          name: 'Days since Snapshot:',
-          value: checkedMachine.daysSinceLastSnapshot,
-        },
-      ],
-    }));
-
-    await this.teamsController.postMessageCard({
-      themeColor: '0072C6',
-      title: 'TS-LazyChecker Backups',
-      text: 'Monitored Machines have been checked.',
-      sections,
-    });
+  ): Promise<boolean> {
+    return this.teamsController.postAdaptiveCardMessage(
+      this.generateTeamsCard(checkedMachines),
+    );
   }
 
   /**

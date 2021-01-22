@@ -1,22 +1,30 @@
 // src/index.ts
 import { logger, LogMode } from './Library/Logging';
-import { configController } from './Modules/Config/ConfigController';
-// import { startScheduler } from './Modules/Schedule/Scheduler';
 import './setup';
 
 logger.log(LogMode.INFO, 'Starting TS-LazyChecker');
 
 const configPath = process.env.CONFIG_PATH || 'config.yml';
 
+const { configController } = await import('./Modules/Config/ConfigController');
+
 await configController.loadConfig(configPath);
 
-const [{ firewallConfigController }] = await Promise.all([
+const [{ firewallConfigController }, { startScheduler }] = await Promise.all([
   import('./Modules/Firewalls/FirewallConfigController'),
+  import('./Modules/Schedule/Scheduler'),
 ]);
 
 await firewallConfigController.loadFile();
-
 const firewallController = firewallConfigController.getFirewall(
+  'fw1.office1.kristianjones.dev',
+);
+
+console.log(await firewallController.postFirewallToTeams());
+
+await startScheduler();
+
+/* const firewallController = firewallConfigController.getFirewall(
   'fw1.office1.kristianjones.dev',
 );
 
