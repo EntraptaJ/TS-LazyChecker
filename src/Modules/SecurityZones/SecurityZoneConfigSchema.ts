@@ -3,6 +3,7 @@ import jsonSchema from 'fluent-json-schema';
 
 const securityZoneSchema = jsonSchema
   .object()
+  .additionalProperties(false)
   .prop(
     'name',
     jsonSchema.string().description('Zone friendly name').required(),
@@ -11,4 +12,12 @@ const securityZoneSchema = jsonSchema
 
 export const securityZoneConfigSchema = jsonSchema
   .object()
-  .prop('zones', jsonSchema.array().items(securityZoneSchema).required());
+  .additionalProperties(false)
+  .prop(
+    'zones',
+    jsonSchema
+      .array()
+      .items(securityZoneSchema)
+      .description('Array of Security Zone Objects')
+      .required(),
+  );

@@ -1,7 +1,8 @@
 // src/Modules/Networks/NetworkController.ts
 import { logger, LogMode } from '../../Library/Logging';
 import { Inject, Service } from 'typedi';
-import { Config, ConfigToken } from '../Config/Config';
+import { Config } from '../Config/Config';
+import { ConfigToken } from '../Config/ConfigController';
 
 @Service()
 export class NetworkController {

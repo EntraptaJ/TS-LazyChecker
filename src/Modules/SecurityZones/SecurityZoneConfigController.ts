@@ -4,10 +4,10 @@ import { load } from 'js-yaml';
 import { logger, LogMode } from '../../Library/Logging';
 import { isObjectType } from '../../Utils/isTypes';
 import { Inject, Service } from 'typedi';
-import { ConfigToken } from '../Config/Config';
+import { ConfigToken } from '../Config/ConfigController';
 import type { Config } from '../Config/Config';
 import { SecurityZone } from './SecurityZone';
-import { SecurityZoneConfigYAML } from './SecurityZoneConfig';
+import { Zones as SecurityZoneConfig } from './SecurityZoneConfig';
 
 @Service()
 export class SecurityZoneConfigController {
@@ -21,7 +21,7 @@ export class SecurityZoneConfigController {
 
     const securityZoneConfig = load(securityZoneFile.toString());
 
-    if (isObjectType<SecurityZoneConfigYAML>(securityZoneConfig, 'zones')) {
+    if (isObjectType<SecurityZoneConfig>(securityZoneConfig, 'zones')) {
       logger.log(
         LogMode.INFO,
         'Loaded Security Zone Configuration File',

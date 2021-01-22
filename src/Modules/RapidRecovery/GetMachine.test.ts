@@ -3,7 +3,7 @@ import { TestSuite } from '@k-foss/ts-estests';
 import Container from 'typedi';
 import '../../setup';
 import type { Config } from '../Config/Config';
-import { ConfigToken } from '../Config/Config';
+import { ConfigToken } from '../Config/ConfigController';
 import { createMachineServer } from './fixtures/MachineServer';
 import { RapidRecoveryController } from './RapidRecoveryController';
 

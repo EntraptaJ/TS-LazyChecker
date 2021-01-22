@@ -5,7 +5,7 @@ import { logger, LogMode } from 'ts-lazychecker/Library/Logging';
 import { isObjectType } from 'ts-lazychecker/Utils/isTypes';
 import Container, { Inject, Service } from 'typedi';
 import type { Config } from '../Config/Config';
-import { ConfigToken } from '../Config/Config';
+import { ConfigToken } from '../Config/ConfigController';
 import { Firewall, FirewallToken } from './Firewall';
 import { FirewallConfigFileYAML } from './FirewallConfig';
 import { FirewallController } from './FirewallController';

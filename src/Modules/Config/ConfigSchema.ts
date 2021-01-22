@@ -3,6 +3,7 @@ import jsonSchema from 'fluent-json-schema';
 
 const configAuthSchema = jsonSchema
   .object()
+  .additionalProperties(false)
   .id('auth')
   .description('Rapid Recovery Authenication Information')
   .prop('username', jsonSchema.string().required())
@@ -10,6 +11,7 @@ const configAuthSchema = jsonSchema
 
 const watchedMachineSchema = jsonSchema
   .object()
+  .additionalProperties(false)
   .id('watchedMachine')
   .definition('TS-LazyChecker monitored servers')
   .prop(
@@ -38,16 +40,17 @@ const watchedMachineSchema = jsonSchema
 
 export const configSchema = jsonSchema
   .object()
+  .additionalProperties(false)
   .prop(
     'controllerUri',
     jsonSchema
       .string()
       .format(jsonSchema.FORMATS.URI)
       .description('RapidRecovery Web URI')
+      .examples(['http://172.28.11.111:8888'])
       .required(),
   )
   .prop('zoneConfigFilePath', jsonSchema.string().default('zones.yml'))
-  .definition('auth', configAuthSchema)
   .prop('auth', configAuthSchema)
   .prop(
     'overwriteSchedule',
@@ -63,7 +66,7 @@ export const configSchema = jsonSchema
     jsonSchema
       .number()
       .description(
-        'Default days before a machine triggers an alert due to missed snapshots/backups',
+        'Default days before a machine triggers an alert due to missed snapshots/backups\n@default 1',
       )
       .default(1),
   )
@@ -80,4 +83,5 @@ export const configSchema = jsonSchema
   .prop(
     'watchedMachines',
     jsonSchema.array().items(watchedMachineSchema).required(),
-  );
+  )
+  .required(['auth']);

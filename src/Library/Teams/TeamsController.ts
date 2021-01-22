@@ -12,7 +12,7 @@ import {
 import got from 'got';
 import { Inject, Service } from 'typedi';
 import type { Config } from '../../Modules/Config/Config';
-import { ConfigToken } from '../../Modules/Config/Config';
+import { ConfigToken } from '../../Modules/Config/ConfigController';
 import { logger, LogMode } from '../Logging';
 import { MessageCard } from './MessageCardInput';
 

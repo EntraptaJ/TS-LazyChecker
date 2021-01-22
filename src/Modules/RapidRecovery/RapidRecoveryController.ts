@@ -15,7 +15,7 @@ import { logger, LogMode } from '../../Library/Logging';
 import { TeamsController } from '../../Library/Teams/TeamsController';
 import { CheckedMachine } from '../Checks/CheckedMachine';
 import type { Config } from '../Config/Config';
-import { ConfigToken } from '../Config/Config';
+import { ConfigToken } from '../Config/ConfigController';
 import { ProtectedMachine } from './MachineModel';
 import {
   MachineRequestBody,
