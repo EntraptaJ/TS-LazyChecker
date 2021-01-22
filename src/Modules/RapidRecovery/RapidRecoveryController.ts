@@ -187,7 +187,8 @@ export class RapidRecoveryController {
 
         const maxDaysWithoutBackup =
           watchedEntry?.daysWithoutBackup ||
-          this.config.defaultDaysWithoutBackup;
+          this.config.defaultDaysWithoutBackup ||
+          1;
 
         if (roundedDaysSinceLastSnapshot >= maxDaysWithoutBackup) {
           const warnMessage = `${watchedEntry.name} has gone ${maxDaysWithoutBackup} or more days without a backup`;
