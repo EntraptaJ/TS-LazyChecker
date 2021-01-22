@@ -40,7 +40,7 @@ const schemas: SchemaFile[] = [
   },
   {
     importModule: () => import('../../Modules/Firewalls/FirewallConfigSchema'),
-    outputTypes: '../../Modules/Firewalls/FirewallConfigTypes1.ts',
+    outputTypes: '../../Modules/Firewalls/FirewallConfig.ts',
     schemaName: 'Firewalls',
   },
 ];

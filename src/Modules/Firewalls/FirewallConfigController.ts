@@ -7,7 +7,7 @@ import Container, { Inject, Service } from 'typedi';
 import type { Config } from '../Config/Config';
 import { ConfigToken } from '../Config/ConfigController';
 import { Firewall, FirewallToken } from './Firewall';
-import { FirewallConfigFileYAML } from './FirewallConfig';
+import { Firewalls as FirewallConfig } from './FirewallConfig';
 import { FirewallController } from './FirewallController';
 
 @Service()
@@ -27,9 +27,7 @@ export class FirewallConfigController {
 
     const firewallsConfigFile = load(firewallsFile.toString());
 
-    if (
-      isObjectType<FirewallConfigFileYAML>(firewallsConfigFile, 'firewalls')
-    ) {
+    if (isObjectType<FirewallConfig>(firewallsConfigFile, 'firewalls')) {
       logger.log(
         LogMode.INFO,
         'Loaded Firewalls Configuration File',
