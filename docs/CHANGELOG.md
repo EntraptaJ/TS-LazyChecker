@@ -1,3 +1,21 @@
+# [1.5.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.4.0...v1.5.0) (2021-01-22)
+
+
+### Bug Fixes
+
+* Fix type issue ([dc757b4](https://github.com/KristianFJones/TS-LazyChecker/commit/dc757b47adee3a7e6ace3bc74c5440dde607d2be))
+
+
+### Features
+
+* Cleanup Config, prepare for release of current upgrades ([ecd6d25](https://github.com/KristianFJones/TS-LazyChecker/commit/ecd6d252ae5ac12075d2bab6014356a4bfaa43ad))
+* **Firewalls:** Begin work on Firewall Monitoring and Management ([47dec8f](https://github.com/KristianFJones/TS-LazyChecker/commit/47dec8f657b1948d2c1c4e8c5ff3bbd0fb8f8122))
+* **Firewalls:** Move Firewalls Types to new JSON Schema generation ([98d1df0](https://github.com/KristianFJones/TS-LazyChecker/commit/98d1df00e974555ea1458af63c741348efa9b6c2))
+* **Networks:** Begin work on Networks creation and monitoring ([f0dc8cd](https://github.com/KristianFJones/TS-LazyChecker/commit/f0dc8cdf49d0b3990229a7466383070881c3cf96))
+* **Security-Zones:** Begin work on Security Zones and automation/monitoring ([eca90c2](https://github.com/KristianFJones/TS-LazyChecker/commit/eca90c2b57be75b08d3ae54b59ce8319a0fe4e17))
+* **Teams:** Use new Adaptive Teams Cards ([763cf4a](https://github.com/KristianFJones/TS-LazyChecker/commit/763cf4ad93cc8799aa2834216253cb33b5633c3c))
+* **Types:** Generate YML/JSON types with the Schemas ([fed9f20](https://github.com/KristianFJones/TS-LazyChecker/commit/fed9f20af240927664765b058b1490ff513d536a))
+
 # [1.4.0](https://github.com/KristianFJones/TS-LazyChecker/compare/v1.3.2...v1.4.0) (2021-01-18)
 
 
