@@ -41,7 +41,7 @@ export async function startScheduler(): Promise<Job> {
     },
   );
 
-  const cron = appConfig.schedule || `*/20 * * * *`;
+  const cron = appConfig.schedule || `*/5 * * * *`;
 
   const parsedCRON = parser.parseExpression(cron, {
     currentDate: appConfig.scheduleStartTime

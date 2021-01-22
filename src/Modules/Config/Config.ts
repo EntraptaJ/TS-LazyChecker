@@ -34,8 +34,12 @@ export interface Config {
   teamsWebHook?: string;
   /**
    * Crontab string for check schedule
+   * @default `* /5 * * * *`
    */
   schedule?: string;
+  /**
+   * Array of RapidRecovery Machines to check and ensure backups/snapshots
+   */
   watchedMachines: {
     /**
      * Friendly name of machine to use in logs and notifications

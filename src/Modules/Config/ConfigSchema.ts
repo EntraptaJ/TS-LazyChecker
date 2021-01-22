@@ -78,10 +78,19 @@ export const configSchema = jsonSchema
   )
   .prop(
     'schedule',
-    jsonSchema.string().description('Crontab string for check schedule'),
+    jsonSchema
+      .string()
+      .description('Crontab string for check schedule\n@default `*/5 * * * *`')
+      .default('*/5 * * * *'),
   )
   .prop(
     'watchedMachines',
-    jsonSchema.array().items(watchedMachineSchema).required(),
+    jsonSchema
+      .array()
+      .items(watchedMachineSchema)
+      .description(
+        'Array of RapidRecovery Machines to check and ensure backups/snapshots',
+      )
+      .required(),
   )
   .required(['auth']);
