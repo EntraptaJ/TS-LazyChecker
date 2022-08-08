@@ -24,7 +24,7 @@
     "cron-parser": "^3.1.0",
     "date-fns": "^2.16.1",
     "fluent-json-schema": "^2.0.3",
-    "got": "^11.8.1",
+    "got": "^12.3.1",
     "hyperid": "^2.1.0",
     "js-yaml": "^4.0.0",
     "reflect-metadata": "^0.1.13",
